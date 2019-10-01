@@ -4,5 +4,5 @@ if __name__ == '__main__':
     if '..' not in sys.path:
         sys.path.append('..')
     import instrumental_dl
-    sys.path.remove('..')
+
     instrumental_dl.main()

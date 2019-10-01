@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import youtube_dl
 
 
@@ -28,10 +28,18 @@ def main():
         }],
         'logger': Logger(),
         'progress_hooks': [hook],
+        'nocheckcertificate': True,
+        'outtmpl': '%(title)s.%(ext)s',
     }
 
-    with youtube_dl.YoutubeDL(options) as ydl:
-        ydl.download(['https://www.youtube.com/watch?v=4N1bIfAlBPc'])
+    if len(sys.argv) > 1:
+        os.chdir(os.getcwd() + '/../output')
+        urls = sys.argv
+        urls.pop(0)
+        with youtube_dl.YoutubeDL(options) as ydl:
+            ydl.download(urls)
+    else:
+        print("Error: enter a url")
 
 
 __all__ = ['main']
