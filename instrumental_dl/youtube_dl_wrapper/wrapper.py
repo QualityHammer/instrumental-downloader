@@ -5,17 +5,6 @@ from ..url_query.query import get_urls
 from ..logger.logger import Logger
 
 
-class YDLLogger:
-    def debug(self, msg):
-        pass
-
-    def warning(self, msg):
-        pass
-
-    def error(self, msg):
-        print(msg)
-
-
 class YoutubeDL:
 
     def __init__(self, logger: Logger):
@@ -26,7 +15,7 @@ class YoutubeDL:
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }],
-            'logger': YDLLogger(),
+            'logger': Logger(),
             'progress_hooks': [logger.hook],
             'nocheckcertificate': True,
             'outtmpl': '%(title)s.%(ext)s',

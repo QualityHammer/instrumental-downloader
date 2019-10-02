@@ -1,6 +1,8 @@
 class Logger:
 
-    def __init__(self, song_titles: list):
+    def __init__(self, song_titles=None):
+        if song_titles is None:
+            song_titles = []
         self.elapsed = 0
         self.song_count = 0
         self.file_names = []
@@ -22,3 +24,12 @@ class Logger:
         with open('../log/download_list.txt', 'w+') as file:
             for i in range(len(self.file_names)):
                 file.write(self.song_titles[i] + ' as: ' + self.file_names[i] + '\n')
+
+    def debug(self, msg):
+        pass
+
+    def warning(self, msg):
+        pass
+
+    def error(self, msg):
+        print(msg)
