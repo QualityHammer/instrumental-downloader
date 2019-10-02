@@ -2,7 +2,7 @@ import sys
 import time
 
 from .youtube_dl_wrapper.wrapper import YoutubeDL
-from .common.file_reader import read_txt_file
+from .common.io import read_txt_file
 from .logger.logger import Logger
 
 

@@ -1,3 +1,6 @@
+from ..common.io import rename_all_files
+
+
 class Logger:
 
     def __init__(self, song_titles=None):
@@ -26,6 +29,7 @@ class Logger:
         print('Downloading', self.song_count, 'songs took', self.download_elapsed,
               'seconds.\nConversion took', self.conversion_elapsed,
               'seconds, and full process took', self.elapsed, 'seconds.')
+        rename_all_files(self.file_names)
         with open('../log/download_list.txt', 'w+') as file:
             for i in range(len(self.file_names)):
                 file.write(self.song_titles[i] + ' as: ' + self.file_names[i] + '\n')
