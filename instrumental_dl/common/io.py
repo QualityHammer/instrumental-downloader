@@ -1,16 +1,6 @@
 import os
 
 
-instrumental_keywords = [
-    ' (Instrumental)',
-    ' [Instrumental]',
-    ' Instrumental',
-    ' instrumental',
-    'Instrumental',
-    'instrumental'
-]
-
-
 def read_txt_file(file_name: str):
     with open(file_name, "r") as file:
         song_names = [song.rstrip('\n') for song in file]
@@ -19,6 +9,7 @@ def read_txt_file(file_name: str):
 
 def rename_all_files(file_names: list):
     os.chdir(os.getcwd() + '/../output')
+    keywords = _get_keywords()
 
     for file_name in file_names:
         if file_name[-5:] == '.webm':
@@ -28,7 +19,7 @@ def rename_all_files(file_names: list):
         else:
             print("Error: Unknown file extension:", file_name)
 
-        for keyword in instrumental_keywords:
+        for keyword in keywords:
             if keyword in file_name:
                 try:
                     os.rename(file_name, file_name.replace(keyword, ''))
@@ -36,3 +27,11 @@ def rename_all_files(file_names: list):
                 except FileNotFoundError:
                     print("Error:", file_name, "not found.")
 
+
+def _get_keywords():
+    keywords = []
+    with open('../config/keywords.txt', 'r') as file:
+        for keyword in file:
+            keywords.append(keyword)
+
+    return keywords

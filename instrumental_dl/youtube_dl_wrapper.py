@@ -1,8 +1,8 @@
 import os
 import youtube_dl
 
-from ..url_query.query import get_urls
-from ..logger.logger import Logger
+from instrumental_dl.url_query import get_urls
+from instrumental_dl.logger.logger import Logger
 
 
 class YoutubeDL:
