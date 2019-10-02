@@ -1,7 +1,8 @@
 import sys
 
 from .youtube_dl_wrapper.wrapper import YoutubeDL
-from instrumental_dl.common.file_reader import read_txt_file
+from .common.file_reader import read_txt_file
+from .logger.logger import Logger
 
 
 def real_main():
@@ -11,6 +12,8 @@ def real_main():
         else:
             song_names = sys.argv
             song_names.pop(0)
-        YoutubeDL().download_songs(song_names)
+        logger = Logger(song_names)
+        YoutubeDL(logger).download_songs(song_names)
+        logger.print_log()
     else:
         print("Error: enter a song name to download")

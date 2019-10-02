@@ -1,10 +1,11 @@
 import os
 import youtube_dl
 
-from instrumental_dl.url_query.query import get_urls
+from ..url_query.query import get_urls
+from ..logger.logger import Logger
 
 
-class Logger:
+class YDLLogger:
     def debug(self, msg):
         pass
 
@@ -15,14 +16,9 @@ class Logger:
         print(msg)
 
 
-def hook(download):
-    if download['status'] == 'finished':
-        print(download['filename'], 'finished downloading in', download['elapsed'], 'seconds')
-
-
 class YoutubeDL:
 
-    def __init__(self):
+    def __init__(self, logger: Logger):
         self.options = {
             'format': 'bestaudio/best',
             'postprocessors': [{
@@ -30,8 +26,8 @@ class YoutubeDL:
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }],
-            'logger': Logger(),
-            'progress_hooks': [hook],
+            'logger': YDLLogger(),
+            'progress_hooks': [logger.hook],
             'nocheckcertificate': True,
             'outtmpl': '%(title)s.%(ext)s',
         }
