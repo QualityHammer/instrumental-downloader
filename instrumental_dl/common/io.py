@@ -43,9 +43,9 @@ def rename_all_files(logger, file_names: list):
 
         # Removes any unneeded keywords in actual file name
         for keyword in keywords:
-            if keyword in file_names[i]:
+            if keyword in file_names[i].lower():
                 try:
-                    new_file_name = file_names[i].replace(keyword, '')
+                    new_file_name = file_names[i].lower().replace(keyword, '').capitalize()
                     os.rename(file_names[i], new_file_name)
                     file_names[i] = new_file_name
                 except FileNotFoundError:
