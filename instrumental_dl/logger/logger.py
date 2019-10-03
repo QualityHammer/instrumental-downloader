@@ -2,6 +2,17 @@ from ..common.io import rename_all_files
 
 
 class Logger:
+    """A custom logger class used for logging song downloads, errors, and
+    youtube-dl errors and info.
+
+    Attributes:
+        elapsed -- The amount of time elapsed during the download and conversion
+        download_elapsed -- The amount of time elapsed during the download
+        conversion_elapsed -- The amount of time elapsed during the conversion
+        song_count -- The amount of songs downloaded
+        file_names -- A list of all of the file names
+        song_titles -- A list of all of the song titles
+    """
 
     def __init__(self, song_titles=None):
         if song_titles is None:
@@ -14,25 +25,28 @@ class Logger:
         self.song_titles = song_titles.copy()
 
     def log_append(self, filename: str, elapsed: float):
+        """Adds an instrumental to the log when it's finished downloading"""
         self.song_count += 1
         self.download_elapsed += elapsed
         self.song_titles.append(filename[:-4])
         self.file_names.append(filename)
 
     def hook(self, download):
+        """Youtube-dl hook used to add instrumentals to the log as
+        they finish downloading"""
         if download['status'] == 'finished':
             self.log_append(download['filename'], download['elapsed'])
 
-    def print_log(self, elapsed):
+    def print_log(self, elapsed: float):
+        """Prints the final log when all of the instrumentals finish"""
         self.elapsed = elapsed
         self.conversion_elapsed = elapsed - self.download_elapsed
+        # Verbose message
         print('Downloading', self.song_count, 'songs took', self.download_elapsed,
               'seconds.\nConversion took', self.conversion_elapsed,
               'seconds, and full process took', self.elapsed, 'seconds.')
         rename_all_files(self.file_names)
-        with open('../log/download_list.txt', 'w+') as file:
-            for i in range(len(self.file_names)):
-                file.write(self.song_titles[i] + ' as: ' + self.file_names[i] + '\n')
+        self._write_song_log()
 
     def debug(self, msg):
         pass
@@ -42,3 +56,10 @@ class Logger:
 
     def error(self, msg):
         print(msg)
+
+    def _write_song_log(self):
+        """Writes all of the song titles and their downloaded file name to
+        a log so that users can see when a wrong song is downloaded"""
+        with open('../log/download_list.txt', 'w+') as file:
+            for i in range(len(self.file_names)):
+                file.write(self.song_titles[i] + ' as: ' + self.file_names[i] + '\n')

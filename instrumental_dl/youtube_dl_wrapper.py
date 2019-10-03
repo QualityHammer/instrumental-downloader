@@ -6,6 +6,12 @@ from instrumental_dl.logger.logger import Logger
 
 
 class YoutubeDL:
+    """A class used as a wrapper for youtube-dl.
+
+    Attributes:
+        options -- The options used to download and convert
+                   using youtube-dl.
+    """
 
     def __init__(self, logger: Logger):
         self.options = {
@@ -24,9 +30,11 @@ class YoutubeDL:
 
     @staticmethod
     def change_output():
+        """Moves current directory to the output."""
         os.chdir(os.getcwd() + '/../output')
 
     def download_songs(self, song_names):
+        """Downloads all of the instrumentals in song_names using youtube-dl."""
         urls = get_urls(song_names)
         with youtube_dl.YoutubeDL(self.options) as ydl:
             ydl.download(urls)

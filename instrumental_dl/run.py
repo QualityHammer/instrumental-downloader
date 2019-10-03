@@ -2,23 +2,28 @@ import sys
 import time
 
 from instrumental_dl.youtube_dl_wrapper import YoutubeDL
-from .common.io import read_txt_file
+from .common.io import get_songs_txt
 from .logger.logger import Logger
+from .errors import MissingArgumentsError
 
 
 def real_main():
     if len(sys.argv) > 1:
         start_time = time.time()
         if sys.argv[1][-4:] == '.txt':
-            print("Downloading and converting songs from " + sys.argv[1] + "...")
-            song_names = read_txt_file(sys.argv[1])
+            # Downloads all songs from a text file
+            print("Downloading and converting instrumentals from " + sys.argv[1] + "...")
+            song_names = get_songs_txt(sys.argv[1])
         else:
-            print("Downloading and converting songs...")
+            # Downloads a list of songs written as arguments
+            print("Downloading and converting instrumentals...")
             song_names = sys.argv
             song_names.pop(0)
+        # Create logger
         logger = Logger(song_names)
+        # Download songs
         YoutubeDL(logger).download_songs(song_names)
+        # Print log
         logger.print_log(time.time() - start_time)
     else:
-        print("Error: enter either a .txt filename or "
-              "song names to download")
+        raise MissingArgumentsError()
