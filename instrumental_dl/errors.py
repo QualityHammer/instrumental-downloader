@@ -12,10 +12,11 @@ class UnknownExtensionError(BaseError):
         message -- Explanation of what to do when this error occurs.
     """
 
-    def __init__(self, file_name: str):
+    def __init__(self, logger, file_name: str):
         self.file_name = file_name
         self.message = "UnknownExtensionError: The extension in " + file_name + \
                        " is unknown and needs to be added by the developer"
+        logger.error(self.message)
 
 
 class MissingArgumentsError(BaseError):
@@ -26,6 +27,7 @@ class MissingArgumentsError(BaseError):
                    song titles or a file name.
     """
 
-    def __init__(self):
+    def __init__(self, logger):
         self.message = "MissingArgumentsError: Enter either a .txt file name " \
                        "or song names to download."
+        logger.error(self.message)

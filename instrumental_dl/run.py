@@ -8,6 +8,8 @@ from .errors import MissingArgumentsError
 
 
 def real_main():
+    # Create logger
+    logger = Logger()
     if len(sys.argv) > 1:
         start_time = time.time()
         if sys.argv[1][-4:] == '.txt':
@@ -19,11 +21,10 @@ def real_main():
             print("Downloading and converting instrumentals...")
             song_names = sys.argv
             song_names.pop(0)
-        # Create logger
-        logger = Logger(song_names)
+        logger.add_song_titles(song_names)
         # Download songs
         YoutubeDL(logger).download_songs(song_names)
         # Print log
         logger.print_log(time.time() - start_time)
     else:
-        raise MissingArgumentsError()
+        raise MissingArgumentsError(logger)

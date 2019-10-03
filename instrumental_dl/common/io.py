@@ -18,11 +18,12 @@ def get_songs_txt(file_name: str):
     return song_names
 
 
-def rename_all_files(file_names: list):
+def rename_all_files(logger, file_names: list):
     """
     Renames all downloaded instrumentals to remove any unneeded
     keywords in the file name.
 
+    :param logger: The main logger for this program
     :param file_names: A list of the names of all the downloaded files.
                        file_names do not need to have .mp3 as their extension
                        when passed through.
@@ -31,23 +32,40 @@ def rename_all_files(file_names: list):
     os.chdir(os.getcwd() + '/../output')
     keywords = _get_keywords()
 
-    for file_name in file_names:
+    for i in range(len(file_names)):
         # Replaces extension in file_name(not actual file name) to .mp3
-        if file_name[-5:] == '.webm':
-            file_name = file_name.replace('.webm', '.mp3')
-        elif file_name[-4:] == '.m4a':
-            file_name = file_name.replace('.m4a', '.mp3')
+        if file_names[i][-5:] == '.webm':
+            file_names[i] = file_names[i].replace('.webm', '.mp3')
+        elif file_names[i][-4:] == '.m4a':
+            file_names[i] = file_names[i].replace('.m4a', '.mp3')
         else:
-            raise UnknownExtensionError(file_name)
+            raise UnknownExtensionError(logger, file_names[i])
 
         # Removes any unneeded keywords in actual file name
         for keyword in keywords:
-            if keyword in file_name:
+            if keyword in file_names[i]:
                 try:
-                    os.rename(file_name, file_name.replace(keyword, ''))
-                    break
+                    new_file_name = file_names[i].replace(keyword, '')
+                    os.rename(file_names[i], new_file_name)
+                    file_names[i] = new_file_name
                 except FileNotFoundError:
-                    print("Error:", file_name, "not found.")
+                    _file_error(logger, file_names[i])
+
+        # Removes unneeded space at the end of file name
+        while file_names[i][-5] == ' ' or file_names[i][-5] == '-':
+            try:
+                new_file_name = file_names[i][:-5] + '.mp3'
+                os.rename(file_names[i], new_file_name)
+                file_names[i] = new_file_name
+            except FileNotFoundError:
+                _file_error(logger, file_names[i])
+
+
+def _file_error(logger, file_name):
+    """Handles FileNotFoundErrors"""
+    msg = "Error:", file_name, "not found."
+    logger.error(msg)
+    print(msg)
 
 
 def _get_keywords():
@@ -61,6 +79,6 @@ def _get_keywords():
     keywords = []
     with open('../config/keywords.txt', 'r') as file:
         for keyword in file:
-            keywords.append(keyword)
+            keywords.append(keyword.rstrip('\n'))
 
     return keywords
