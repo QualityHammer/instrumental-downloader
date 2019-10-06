@@ -3,6 +3,7 @@ import youtube_dl
 
 from .url_query import get_urls
 from .logger.logger import Logger
+from .common.path import goto_bin, goto_music
 
 
 class YoutubeDL:
@@ -13,7 +14,7 @@ class YoutubeDL:
                    using youtube-dl.
     """
 
-    def __init__(self, logger: Logger):
+    def __init__(self, logger):
         self.options = {
             'format': 'bestaudio/best',
             'postprocessors': [{
@@ -26,15 +27,10 @@ class YoutubeDL:
             'nocheckcertificate': True,
             'outtmpl': '%(title)s.%(ext)s',
         }
-        self.change_output()
-
-    @staticmethod
-    def change_output():
-        """Moves current directory to the output."""
-        os.chdir(os.getcwd() + '/../output')
 
     def download_songs(self, song_names):
         """Downloads all of the instrumentals in song_names using youtube-dl."""
+        goto_music()
         urls = get_urls(song_names)
         with youtube_dl.YoutubeDL(self.options) as ydl:
             ydl.download(urls)

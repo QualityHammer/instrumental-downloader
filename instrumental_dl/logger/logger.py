@@ -1,5 +1,6 @@
 import logging
 import datetime
+import os
 
 from ..common.io import rename_all_files
 
@@ -73,13 +74,13 @@ class Logger:
         """Configs and turns on log mode when an error/ warning has occurred"""
         if not self.log_mode:
             self.log_mode = True
-            logging.basicConfig(filename='../log/errors/' + str(datetime.datetime.now()) +
+            logging.basicConfig(filename='log/errors/' + str(datetime.datetime.now()) +
                                          '.log', filemode='w',
                                 format='%(name)s - %(levelname)s - %(message)s')
 
     def _write_song_log(self):
         """Writes all of the song titles and their downloaded file name to
         a log so that users can see when a wrong song is downloaded"""
-        with open('../log/download_list.txt', 'w+') as file:
+        with open('log/download_list.txt', 'w+') as file:
             for i in range(len(self.file_names)):
                 file.write(self.song_titles[i] + ' as: ' + self.file_names[i] + '\n')
