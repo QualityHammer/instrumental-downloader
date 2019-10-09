@@ -1,6 +1,5 @@
 import logging
 import datetime
-import os
 
 from ..common.io import rename_all_files
 from ..common.path import goto_program

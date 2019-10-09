@@ -1,9 +1,8 @@
-import os
 import youtube_dl
 
 from .url_query import get_urls
 from .logger.logger import Logger
-from .common.path import goto_program, goto_music
+from .common.path import goto_music
 
 
 class YoutubeDL:
