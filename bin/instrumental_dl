@@ -1,8 +1,8 @@
-#!/usr/bin/env python
-if __name__ == '__main__':
-    import sys
-    if '..' not in sys.path:
-        sys.path.append('..')
-    import instrumental_dl
+#!/usr/bin/env python3
+import sys
+sys.path.append('/usr/local/instrumental_dl')
+from instrumental_dl import main
 
-    instrumental_dl.main()
+if __name__ == '__main__':
+
+    main()

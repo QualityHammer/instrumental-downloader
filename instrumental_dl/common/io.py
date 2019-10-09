@@ -1,6 +1,7 @@
 import os
 
 from ..errors import UnknownExtensionError
+from .path import goto_music, goto_program
 
 
 def get_songs_txt(file_name: str):
@@ -28,8 +29,6 @@ def rename_all_files(logger, file_names: list):
                        file_names do not need to have .mp3 as their extension
                        when passed through.
     """
-    # Move to output directory
-    os.chdir(os.getcwd() + '/../output')
     keywords = _get_keywords()
 
     for i in range(len(file_names)):
@@ -60,6 +59,8 @@ def rename_all_files(logger, file_names: list):
             except FileNotFoundError:
                 _file_error(logger, file_names[i])
 
+    goto_program()
+
 
 def _file_error(logger, file_name):
     """Handles FileNotFoundErrors"""
@@ -76,9 +77,11 @@ def _get_keywords():
     :return: keywords: A list of all the keywords to remove
                        file names.
     """
+    goto_program()
     keywords = []
-    with open('../config/keywords.txt', 'r') as file:
+    with open('config/keywords.txt', 'r') as file:
         for keyword in file:
             keywords.append(keyword.rstrip('\n'))
+    goto_music()
 
     return keywords
