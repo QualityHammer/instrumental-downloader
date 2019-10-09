@@ -6,8 +6,8 @@ def goto_music():
     os.chdir(os.path.join(os.path.expanduser('~'), 'Music/Instrumentals'))
 
 
-def goto_bin():
-    """Moves current directory to the bin."""
+def goto_program():
+    """Moves current directory to the instrumental_dl folder."""
     os.chdir(
         os.path.dirname(
             os.path.dirname(

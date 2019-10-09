@@ -3,6 +3,7 @@ import datetime
 import os
 
 from ..common.io import rename_all_files
+from ..common.path import goto_program
 
 
 class Logger:
@@ -72,6 +73,7 @@ class Logger:
 
     def _log_mode_on(self):
         """Configs and turns on log mode when an error/ warning has occurred"""
+        goto_program()
         if not self.log_mode:
             self.log_mode = True
             logging.basicConfig(filename='log/errors/' + str(datetime.datetime.now()) +

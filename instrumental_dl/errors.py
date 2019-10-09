@@ -1,6 +1,9 @@
 class BaseError(Exception):
     """Base exception"""
-    pass
+
+    def __init__(self, msg, logger):
+        Exception.__init__(self, msg)
+        logger.error(msg)
 
 
 class UnknownExtensionError(BaseError):
@@ -14,9 +17,9 @@ class UnknownExtensionError(BaseError):
 
     def __init__(self, logger, file_name: str):
         self.file_name = file_name
-        self.message = "UnknownExtensionError: The extension in " + file_name + \
+        self.message = "The extension in " + file_name + \
                        " is unknown and needs to be added by the developer"
-        logger.error(self.message)
+        BaseError.__init__(self, self.message, logger)
 
 
 class MissingArgumentsError(BaseError):
@@ -28,6 +31,6 @@ class MissingArgumentsError(BaseError):
     """
 
     def __init__(self, logger):
-        self.message = "MissingArgumentsError: Enter either a .txt file name " \
+        self.message = "Enter either a .txt file name " \
                        "or song names to download."
-        logger.error(self.message)
+        BaseError.__init__(self, self.message, logger)
