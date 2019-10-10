@@ -1,7 +1,6 @@
 (instrumental)
 [instrumental]
 instrumental
-()
 [track 1]
 [track 2]
 [track 3]
@@ -15,5 +14,9 @@ instrumental
 [track 11]
 [track 12]
 [track 13]
-[official audio]
-(full)
+official
+audio
+full
+no loop
+[]
+()
