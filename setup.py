@@ -1,12 +1,14 @@
 from setuptools import setup
 
+from instrumental_dl import __version__
+
 
 with open("README.md", 'r') as f:
     long_description = f.read()
 
 setup(
     name="instrumental_dl",
-    version=0.1,
+    version=__version__,
     packages=[
         'instrumental_dl', 'instrumental_dl.common',
         'instrumental_dl.logger', 'instrumental_dl.config'
@@ -27,6 +29,6 @@ setup(
     url='https://github.com/QualityHammer/instrumental-downloader',
 
     entry_points={
-        'console_scripts': ['instrumental_dl=bin.instrumental_dl:main']
+        'console_scripts': ['instrumental_dl=instrumental_dl:main']
     }
 )

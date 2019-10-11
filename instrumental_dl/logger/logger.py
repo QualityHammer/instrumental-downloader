@@ -1,8 +1,9 @@
 import logging
-import datetime
+from datetime import datetime
+from os import getcwd
 
 from ..common.io import rename_all_files
-from ..common.path import goto_program
+from ..common.path import goto_origin
 
 
 class Logger:
@@ -21,14 +22,14 @@ class Logger:
     """
 
     def __init__(self):
-        song_titles = []
         self.elapsed = 0
         self.download_elapsed = 0
         self.conversion_elapsed = 0
         self.song_count = 0
         self.file_names = []
-        self.song_titles = song_titles.copy()
+        self.song_titles = []
         self.log_mode = False
+        self.origin_path = getcwd()
 
     def add_song_titles(self, song_titles: list):
         self.song_titles = song_titles
@@ -72,10 +73,10 @@ class Logger:
 
     def _log_mode_on(self):
         """Configs and turns on log mode when an error/ warning has occurred"""
-        goto_program()
+        goto_origin(self.origin_path)
         if not self.log_mode:
             self.log_mode = True
-            logging.basicConfig(filename='log/errors/' + str(datetime.datetime.now()) +
+            logging.basicConfig(filename='log/errors/' + str(datetime.now()) +
                                          '.log', filemode='w',
                                 format='%(name)s - %(levelname)s - %(message)s')
 
