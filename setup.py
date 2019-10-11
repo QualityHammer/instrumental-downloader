@@ -29,5 +29,9 @@ setup(
     keywords='instrumental downloader',
     url='https://github.com/QualityHammer/instrumental-downloader',
 
-    scripts=['bin/instrumental_dl']
+    entry_points={
+        'console_scripts': [
+            'instrumental_dl=instrumental_dl:main'
+        ]
+    }
 )

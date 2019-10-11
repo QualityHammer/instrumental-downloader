@@ -1,4 +1,5 @@
 import os
+import platform
 
 from ..errors import UnknownExtensionError
 from .path import goto_music, goto_program
@@ -77,10 +78,14 @@ def _get_keywords():
     :return: keywords: A list of all the keywords to remove
                        file names.
     """
+    if platform.system() == 'Windows':
+        key_file = 'config\\keywords.txt'
+    else:
+        key_file = 'config/keywords.txt'
     key_path = os.path.join(os.path.dirname(
         os.path.dirname(
             os.path.realpath(__file__))),
-        'config/keywords.txt')
+        key_file)
 
     keywords = []
     with open(key_path, 'r') as file:

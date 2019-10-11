@@ -79,8 +79,9 @@ class Logger:
         goto_origin(self.origin_path)
         if not self.log_mode:
             self.log_mode = True
-            logging.basicConfig(filename=str(datetime.now()) + '.log', filemode='w',
-                                format='%(name)s - %(levelname)s - %(message)s')
+            filename = 'log{}.log'.format(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S_%f'))
+            logging_format = '%(name)s - %(levelname)s - %(message)s'
+            logging.basicConfig(filename=filename, filemode='w', format=logging_format)
 
     def _write_song_log(self):
         """Writes all of the song titles and their downloaded file name to
