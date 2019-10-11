@@ -1,0 +1,3 @@
+include README.md
+include LICENSE
+include instrumental_dl/config/keywords.txt

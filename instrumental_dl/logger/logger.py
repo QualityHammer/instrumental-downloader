@@ -45,7 +45,10 @@ class Logger:
         """Youtube-dl hook used to add instrumentals to the log as
         they finish downloading"""
         if download['status'] == 'finished':
-            self.log_append(download['filename'], download['elapsed'])
+            try:
+                self.log_append(download['filename'], download['elapsed'])
+            except KeyError:
+                self.log_append(download['filename'], 0)
 
     def print_log(self, elapsed: float):
         """Prints the final log when all of the instrumentals finish"""

@@ -77,9 +77,13 @@ def _get_keywords():
     :return: keywords: A list of all the keywords to remove
                        file names.
     """
-    goto_program()
+    key_path = os.path.join(os.path.dirname(
+        os.path.dirname(
+            os.path.realpath(__file__))),
+        'config/keywords.txt')
+
     keywords = []
-    with open('instrumental_dl/config/keywords.txt', 'r') as file:
+    with open(key_path, 'r') as file:
         for keyword in file:
             keywords.append(keyword.rstrip('\n'))
     goto_music()

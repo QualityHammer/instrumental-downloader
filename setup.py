@@ -13,9 +13,10 @@ setup(
         'instrumental_dl', 'instrumental_dl.common',
         'instrumental_dl.logger', 'instrumental_dl.config'
     ],
-    package_data={
-        'config': ['keywords.txt']
-    },
+    data_files=[
+        ('config', ['instrumental_dl/config/keywords.txt'])
+    ],
+    include_package_data=True,
 
     install_requires=['youtube_dl>=2019.9.28'],
     python_requires='>=3.6',
@@ -28,7 +29,5 @@ setup(
     keywords='instrumental downloader',
     url='https://github.com/QualityHammer/instrumental-downloader',
 
-    entry_points={
-        'console_scripts': ['instrumental_dl=instrumental_dl:main']
-    }
+    scripts=['bin/instrumental_dl']
 )
