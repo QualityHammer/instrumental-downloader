@@ -79,7 +79,7 @@ def _get_keywords():
     """
     goto_program()
     keywords = []
-    with open('config/keywords.txt', 'r') as file:
+    with open('instrumental_dl/config/keywords.txt', 'r') as file:
         for keyword in file:
             keywords.append(keyword.rstrip('\n'))
     goto_music()
