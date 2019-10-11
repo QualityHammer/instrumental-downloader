@@ -6,4 +6,4 @@ def main():
 
 
 __all__ = ['main', '__version__']
-__version__ = '0.2a6'
+__version__ = '0.3'
