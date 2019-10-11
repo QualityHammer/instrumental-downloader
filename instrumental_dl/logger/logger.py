@@ -76,13 +76,13 @@ class Logger:
         goto_origin(self.origin_path)
         if not self.log_mode:
             self.log_mode = True
-            logging.basicConfig(filename='log/errors/' + str(datetime.now()) +
-                                         '.log', filemode='w',
+            logging.basicConfig(filename=str(datetime.now()) + '.log', filemode='w',
                                 format='%(name)s - %(levelname)s - %(message)s')
 
     def _write_song_log(self):
         """Writes all of the song titles and their downloaded file name to
         a log so that users can see when a wrong song is downloaded"""
-        with open('log/download_list.txt', 'w+') as file:
+        goto_origin(self.origin_path)
+        with open('download_list.txt', 'w+') as file:
             for i in range(len(self.file_names)):
                 file.write(self.song_titles[i] + ' as: ' + self.file_names[i] + '\n')
