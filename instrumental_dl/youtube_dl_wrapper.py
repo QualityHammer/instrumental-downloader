@@ -1,7 +1,6 @@
 import youtube_dl
 
 from .url_query import get_urls
-from .logger.logger import Logger
 from .common.path import goto_music
 
 
@@ -11,9 +10,11 @@ class YoutubeDL:
     Attributes:
         options -- The options used to download and convert
                    using youtube-dl.
+        logger --  The main logger object.
     """
 
     def __init__(self, logger):
+        self.logger = logger
         self.options = {
             'format': 'bestaudio/best',
             'postprocessors': [{
@@ -21,15 +22,17 @@ class YoutubeDL:
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }],
-            'logger': Logger(),
-            'progress_hooks': [logger.hook],
+            'logger': self.logger,
+            'progress_hooks': [self.logger.hook],
             'nocheckcertificate': True,
             'outtmpl': '%(title)s.%(ext)s',
         }
 
-    def download_songs(self, song_names):
-        """Downloads all of the instrumentals in song_names using youtube-dl."""
+    def download_songs(self, song_names: list):
+        """Downloads all of the instrumentals in song_names using youtube-dl.
+
+        :param: song_names: A list of all the song names to be downloaded."""
+        self.logger.add_song_titles(song_names)
         goto_music()
-        urls = get_urls(song_names)
         with youtube_dl.YoutubeDL(self.options) as ydl:
-            ydl.download(urls)
+            ydl.download(get_urls(song_names))

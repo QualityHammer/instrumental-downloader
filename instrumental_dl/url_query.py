@@ -8,6 +8,9 @@ def get_urls(song_names: list):
     """Using a code snippet by Grant Curell, this gets a list
     of the urls for each of the instrumentals to be downloaded.
 
+    source: https://www.codeproject.com/Articles/873060/Python-Search-Youtube-for-Video
+
+    :param: song_names: A list of song names to be searched for.
     :return: urls: A list of the urls for all the instrumentals to be downloaded
     """
     ssl_context = ssl.SSLContext()
