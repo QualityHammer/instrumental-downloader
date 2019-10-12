@@ -14,7 +14,7 @@ def real_main():
         start_time = time.time()
         if sys.argv[1][-4:] == '.txt':
             # Downloads all songs from a text file
-            print("Downloading and converting instrumentals from {sys.argv[1]}...")
+            print(f"Downloading and converting instrumentals from {sys.argv[1]}...")
             song_names = get_songs_txt(sys.argv[1])
         else:
             # Downloads a list of songs written as arguments

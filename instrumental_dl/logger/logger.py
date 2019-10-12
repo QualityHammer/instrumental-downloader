@@ -1,9 +1,9 @@
 import logging
 from datetime import datetime
-from os import getcwd
+from os import path, mkdir
 
 from ..common.io import rename_all_files
-from ..common.path import goto_origin
+from ..common.path import goto_music
 
 
 class Logger:
@@ -29,9 +29,9 @@ class Logger:
         self.file_names = []
         self.song_titles = []
         self.log_mode = False
-        self.origin_path = getcwd()
 
     def add_song_titles(self, song_titles: list):
+        """Adds all of the song titles to the log."""
         self.song_titles = song_titles
 
     def log_append(self, filename: str, elapsed: float):
@@ -57,9 +57,9 @@ class Logger:
         rename_all_files(self, self.file_names)
         self._write_song_log()
         # Verbose message
-        print('Downloading', self.song_count, 'songs took', self.download_elapsed,
-              'seconds.\nConversion took', self.conversion_elapsed,
-              'seconds, and full process took', self.elapsed, 'seconds.')
+        print(f'Downloading {self.song_count} songs took {self.download_elapsed} '
+              f'seconds.\nConversion took {self.conversion_elapsed} ',
+              f'seconds, and full process took {self.elapsed} seconds.')
 
     def debug(self, msg):
         pass
@@ -74,19 +74,30 @@ class Logger:
         self._log_mode_on()
         logging.error(msg)
 
+    @staticmethod
+    def _create_log_dir():
+        """Creates a directory for logs in ~/music/Instrumentals if it
+        doesn't exist.
+
+        :return: log_dir: The name of the log directory"""
+        log_dir = 'instrumental_dl_log'
+        if not path.exists(log_dir):
+            mkdir(log_dir)
+        return log_dir
+
     def _log_mode_on(self):
         """Configs and turns on log mode when an error/ warning has occurred"""
-        goto_origin(self.origin_path)
         if not self.log_mode:
+            goto_music()
             self.log_mode = True
-            filename = 'log{}.log'.format(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S_%f'))
+            timestamp = datetime.strftime(datetime.now(), '%Y%m%d%H%M%S_%f')
+            filename = f'{self._create_log_dir()}/log{timestamp}.log'
             logging_format = '%(name)s - %(levelname)s - %(message)s'
             logging.basicConfig(filename=filename, filemode='w', format=logging_format)
 
     def _write_song_log(self):
         """Writes all of the song titles and their downloaded file name to
         a log so that users can see when a wrong song is downloaded"""
-        goto_origin(self.origin_path)
-        with open('download_list.txt', 'w+') as file:
+        with open(f'{self._create_log_dir()}/download_list.txt', 'w+') as file:
             for i in range(len(self.file_names)):
-                file.write(self.song_titles[i] + ' as: ' + self.file_names[i] + '\n')
+                file.write(f'{self.song_titles[i]} as: {self.file_names[i]} \n')

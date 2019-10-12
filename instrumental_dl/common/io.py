@@ -2,7 +2,6 @@ import os
 import platform
 
 from ..errors import UnknownExtensionError
-from .path import goto_music, goto_program
 
 
 def get_songs_txt(file_name: str):
@@ -60,12 +59,10 @@ def rename_all_files(logger, file_names: list):
             except FileNotFoundError:
                 _file_error(logger, file_names[i])
 
-    goto_program()
-
 
 def _file_error(logger, file_name):
     """Handles FileNotFoundErrors"""
-    msg = "Error:", file_name, "not found."
+    msg = f"Error: {file_name} not found."
     logger.error(msg)
     print(msg)
 
@@ -91,6 +88,5 @@ def _get_keywords():
     with open(key_path, 'r') as file:
         for keyword in file:
             keywords.append(keyword.rstrip('\n'))
-    goto_music()
 
     return keywords
