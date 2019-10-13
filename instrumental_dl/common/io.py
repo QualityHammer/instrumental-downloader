@@ -1,22 +1,8 @@
 import os
 import platform
 
+from .args import is_verbose
 from ..errors import UnknownExtensionError
-
-
-def get_songs_txt(file_name: str):
-    """
-    Opens up the provided text file to retrieve a list of all
-    the instrumentals that are going to be downloaded.
-
-    :param file_name: The name of the file that contains
-                      a list of all the instrumentals to be downloaded.
-    :return: song_names: A list of the names of all of the instrumentals
-                         to be downloaded.
-    """
-    with open(file_name, "r") as file:
-        song_names = [song.rstrip('\n') for song in file]
-    return song_names
 
 
 def rename_all_files(logger, file_names: list):
@@ -29,9 +15,16 @@ def rename_all_files(logger, file_names: list):
                        file_names do not need to have .mp3 as their extension
                        when passed through.
     """
+    if is_verbose():
+        print('Starting renaming process.')
+
     keywords = _get_keywords()
 
     for i in range(len(file_names)):
+        old_name = None
+        if is_verbose():
+            old_name = file_names[i]
+
         # Replaces extension in file_name(not actual file name) to .mp3
         if file_names[i][-5:] == '.webm':
             file_names[i] = file_names[i].replace('.webm', '.mp3')
@@ -58,6 +51,9 @@ def rename_all_files(logger, file_names: list):
                 file_names[i] = new_file_name
             except FileNotFoundError:
                 _file_error(logger, file_names[i])
+
+        if is_verbose():
+            print(f'Converted and renamed {old_name} to {file_names[i]}.')
 
 
 def _file_error(logger, file_name):

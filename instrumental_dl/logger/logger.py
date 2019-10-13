@@ -4,6 +4,7 @@ from os import path, mkdir
 
 from ..common.io import rename_all_files
 from ..common.path import goto_music
+from ..common.args import is_verbose
 
 
 class Logger:
@@ -49,17 +50,23 @@ class Logger:
                 self.log_append(download['filename'], download['elapsed'])
             except KeyError:
                 self.log_append(download['filename'], 0)
+            if is_verbose():
+                print(f'Downloaded {download["filename"]}.')
 
     def print_log(self, elapsed: float):
         """Prints the final log when all of the instrumentals finish"""
-        self.elapsed = elapsed
-        self.conversion_elapsed = elapsed - self.download_elapsed
+        self.elapsed = round(elapsed, 2)
+        self.download_elapsed = round(self.download_elapsed, 2)
+        self.conversion_elapsed = round(elapsed - self.download_elapsed, 2)
         rename_all_files(self, self.file_names)
         self._write_song_log()
-        # Verbose message
-        print(f'Downloading {self.song_count} songs took {self.download_elapsed} '
-              f'seconds.\nConversion took {self.conversion_elapsed} ',
-              f'seconds, and full process took {self.elapsed} seconds.')
+        if is_verbose():
+            # Verbose message
+            print(f'Downloading {self.song_count} songs took {self.download_elapsed} '
+                  f'seconds.\nConversion took {self.conversion_elapsed} ',
+                  f'seconds, and full process took {self.elapsed} seconds.')
+        else:
+            print(f'Downloaded {self.song_count} songs in {self.elapsed} seconds.')
 
     def debug(self, msg):
         pass

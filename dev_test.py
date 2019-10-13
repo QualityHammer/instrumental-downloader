@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from instrumental_dl import main
 
 if __name__ == '__main__':

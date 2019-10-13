@@ -1,4 +1,4 @@
-from instrumental_dl.run import real_main
+from instrumental_dl.main import real_main
 
 
 def main():
@@ -6,4 +6,4 @@ def main():
 
 
 __all__ = ['main', '__version__']
-__version__ = '0.3.1'
+__version__ = '0.4.dev1'
