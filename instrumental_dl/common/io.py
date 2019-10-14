@@ -16,7 +16,7 @@ def rename_all_files(logger, file_names: list):
                        when passed through.
     """
     if is_verbose():
-        print('Starting renaming process.')
+        print('Starting renaming process...')
 
     keywords = _get_keywords()
 
