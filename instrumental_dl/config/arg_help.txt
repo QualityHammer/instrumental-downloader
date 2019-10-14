@@ -1,0 +1,3 @@
+--f:A file name of a txt file with a list of song names to download.
+--s:A list of song names to download.
+-v:Print out detailed information about the download process.
