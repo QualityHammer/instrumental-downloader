@@ -11,7 +11,7 @@ Then, use pip3 to install:
 
 # Description
 
-Instrumental_dl was created as a command-line tool used to download a list of instrumentals based on just the song name.(and sometimes the artist is needed to identify the song) This tool is based off of [youtube_dl](https://github.com/ytdl-org/youtube-dl), a tool used to download youtube videos from their url. The Python interpreter version 3.6+ is needed for this program. FFprobe/ ffmpeg needs to be installed in the PATH, as that is the program used to download instrumentals as mp3 files. 
+**Instrumental_dl** was created as a command-line tool used to download a list of instrumentals based on just the song name.(and sometimes the artist is needed to identify the song) This tool is based off of [youtube_dl](https://github.com/ytdl-org/youtube-dl), a tool used to download youtube videos from their url. The Python interpreter version 3.6+ is needed for this program. FFprobe/ ffmpeg needs to be installed in the PATH, as that is the program used to download instrumentals as mp3 files. 
 
     instrumental-dl --f FILE_NAME
     instrumental-dl --s "SONG_NAMES" ["SONG_NAMES"]
