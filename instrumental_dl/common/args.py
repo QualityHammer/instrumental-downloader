@@ -1,15 +1,20 @@
 import argparse
 from platform import system
+from os import getcwd
 
-from .path import goto_program
+from .path import goto_program, goto_origin
 from ..version import __version__
 
 
 parser = None
+origin_path = None
 
 
 def arg_init():
     """This is called at the start of the program to add arguments."""
+    # Save starting directory for later
+    global origin_path
+    origin_path = getcwd()
     global parser
     parser = argparse.ArgumentParser(prog='instrumental_dl', description='A downloader for instrumentals.')
     arg_ids = ['--f', '--s', '-v']
@@ -49,6 +54,7 @@ def get_songs_txt(file_name: str):
     :return: song_names: A list of the names of all of the instrumentals
                          to be downloaded.
     """
+    goto_origin(origin_path)
     with open(file_name, "r") as file:
         song_names = [song.rstrip('\n') for song in file]
     return song_names
