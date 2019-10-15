@@ -2,6 +2,7 @@ import argparse
 from platform import system
 
 from .path import goto_program
+from ..version import __version__
 
 
 parser = None
@@ -10,10 +11,11 @@ parser = None
 def arg_init():
     """This is called at the start of the program to add arguments."""
     global parser
-    parser = argparse.ArgumentParser(description='A downloader for instrumentals.')
+    parser = argparse.ArgumentParser(prog='instrumental_dl', description='A downloader for instrumentals.')
     arg_ids = ['--f', '--s', '-v']
     arg_help = _get_arg_help(arg_ids)
 
+    parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
     parser.add_argument(arg_ids[0], '-File', nargs='?', required=False,
                         help=arg_help[arg_ids[0]])
     parser.add_argument(arg_ids[1], '-Songs', metavar='SONGS', nargs='+', required=False,
