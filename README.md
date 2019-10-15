@@ -25,7 +25,10 @@ First, you need to install [ffprobe/ ffmpeg](https://ffmpeg.org/download.html).
       if it contains any spaces)
 
 # Options
-    -h, --help              Print this help text and exit
+    INFO
+    ---------------------
+    -h, --help              Print the help text and exit
+    --version               Print the current version and exit
     
     ONE REQUIRED
     ---------------------

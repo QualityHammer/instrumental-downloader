@@ -1,6 +1,6 @@
 from setuptools import setup
 
-from instrumental_dl import __version__
+from instrumental_dl.version import __version__
 
 
 with open("README.md", 'r') as f:
