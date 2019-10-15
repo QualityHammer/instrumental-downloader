@@ -4,8 +4,14 @@ A command line tool to download a song's instrumental from Youtube.
 
 # Installation
 
-First, you need to install [ffprobe/ ffmpeg](https://ffmpeg.org/download.html).<br>
-Then, use pip3 to install:
+First, you need to install [ffprobe/ ffmpeg](https://ffmpeg.org/download.html).  
+  1) Download the build for your OS  
+  2) Extract the program folder from the download  
+  3) Add the program folder to the system PATH:  
+       [Windows](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)  
+       [Mac](https://medium.com/@imstudio/path-macos-best-practice-for-path-environment-variables-on-mac-os-35ec4076a486)  
+       [Linux](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path)  
+<p>Then, use pip3 to install:<p>
 
     pip3 install instrumental_dl
 
@@ -14,7 +20,7 @@ Then, use pip3 to install:
 **Instrumental_dl** was created as a command-line tool used to download a list of instrumentals based on just the song name.(and sometimes the artist is needed to identify the song) This tool is based off of [youtube_dl](https://github.com/ytdl-org/youtube-dl), a tool used to download youtube videos from their url. The Python interpreter version 3.6+ is needed for this program. FFprobe/ ffmpeg needs to be installed in the PATH, as that is the program used to download instrumentals as mp3 files. 
 
     instrumental_dl --f FILE_NAME
-    instrumental_dl --s "SONG_NAMES" ["SONG_NAMES"]
+    instrumental_dl --s "SONG_NAMES" ["SONG_NAMES"...]
       (with --s the song name needs to be in quotations
       if it contains any spaces)
 
