@@ -14,8 +14,8 @@ setup(
         'instrumental_dl.logger', 'instrumental_dl.config'
     ],
     data_files=[
-        ('config', ['instrumental_dl/config/keywords.txt'],
-         'args', ['instrumental_dl/config/arg_help.txt'])
+        ('config', ['instrumental_dl/config/keywords.txt',
+                    'instrumental_dl/config/arg_help.txt'])
     ],
     include_package_data=True,
 

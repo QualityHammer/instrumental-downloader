@@ -21,7 +21,8 @@ def get_urls(song_names: list):
             "http://www.youtube.com/results?" + query_string,
             context=ssl_context
         )
-        urls.append("http://www.youtube.com/watch?v=" + re.findall(
-            r'href=\"\/watch\?v=(.{11})', html_content.read().decode())[0])
+        url = "http://www.youtube.com/watch?v=" + re.findall(
+            r'href=\"\/watch\?v=(.{11})', html_content.read().decode())[0]
+        urls.append(url)
 
     return urls
