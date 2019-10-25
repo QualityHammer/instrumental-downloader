@@ -20,3 +20,25 @@ class UnknownExtensionError(BaseError):
         self.message = "The extension in " + file_name + \
                        " is unknown and needs to be added by the developer"
         BaseError.__init__(self, self.message, logger)
+
+
+class NoInternetConnectionError(BaseError):
+    """This exception is raised if there is no internet access available"""
+
+    def __init__(self, logger):
+        self.message = "An internet connection could not be found. Check your " \
+                        "network settings to make sure you're connected to a network."
+        BaseError.__init__(self, self.message, logger)
+
+
+class NoInstrumentalFoundError(BaseError):
+    """This exception is raised if a search for an instrumental comes back
+    with 0 video results.
+    
+    Attributes:
+        :param song_name -- The name of the song that had no results
+    """
+
+    def __init__(self, logger, song_name):
+        self.message = f"There were no results for {song_name} Instrumental."
+        BaseError.__init__(self, self.message, logger)

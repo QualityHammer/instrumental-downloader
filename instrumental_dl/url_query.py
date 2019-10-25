@@ -4,7 +4,7 @@ import re
 import ssl
 
 
-def get_urls(song_names: list):
+def get_urls(logger, song_names: list):
     """Using a code snippet by Grant Curell, this gets a list
     of the urls for each of the instrumentals to be downloaded.
 
@@ -15,14 +15,20 @@ def get_urls(song_names: list):
     """
     ssl_context = ssl.SSLContext()
     urls = []
+    failed_songs = []
     for song_name in song_names:
         query_string = urllib.parse.urlencode({"search_query": song_name + " instrumental"})
         html_content = urllib.request.urlopen(
             "http://www.youtube.com/results?" + query_string,
             context=ssl_context
         )
-        url = "http://www.youtube.com/watch?v=" + re.findall(
-            r'href=\"\/watch\?v=(.{11})', html_content.read().decode())[0]
-        urls.append(url)
 
-    return urls
+        try:
+            url = "http://www.youtube.com/watch?v=" + \
+                  re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())[0]
+            urls.append(url)
+        except IndexError:
+            failed_songs.append(song_name)
+            song_names.remove(song_name)
+
+    return urls, failed_songs, song_names

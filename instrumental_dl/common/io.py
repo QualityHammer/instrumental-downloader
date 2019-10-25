@@ -16,7 +16,7 @@ def rename_all_files(logger):
                        file_names do not need to have .mp3 as their extension
                        when passed through.
     """
-    if is_verbose():
+    if is_verbose() and len(logger.song_titles) > 0:
         print('Starting renaming process...')
 
     keywords = _get_keywords()

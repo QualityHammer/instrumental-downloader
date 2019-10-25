@@ -5,7 +5,6 @@ from os import getcwd
 from .path import goto_program, goto_origin
 from ..version import __version__
 
-
 parser = None
 origin_path = None
 
@@ -81,17 +80,25 @@ def has_songs():
 
 def get_song_names():
     """Returns a list of song names from a list and/ or a file."""
+    def _getS(song_names_len):
+        if song_names_len == 1:
+            return ''
+        else:
+            return 's'
+
     song_names = None
     filename = get_filename()
     if has_songs() and has_filename():
         song_names = get_songs() + get_songs_txt(filename)
-        print(f'Downloading and converting {len(song_names)} instrumentals from list and {filename}...')
+        print(
+            f'Downloading and converting {len(song_names)} instrumental{_getS(len(song_names))} '
+            "from list and {filename}...")
     elif has_filename():
         song_names = get_songs_txt(filename)
-        print(f"Downloading and converting {len(song_names)} instrumentals from {filename}...")
+        print(f"Downloading and converting {len(song_names)} instrumental{_getS(len(song_names))} from {filename}...")
     elif has_songs():
         song_names = get_songs()
-        print(f"Downloading and converting {len(song_names)} instrumentals from list...")
+        print(f"Downloading and converting {len(song_names)} instrumental{_getS(len(song_names))} from list...")
 
     return song_names
 
