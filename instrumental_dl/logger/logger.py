@@ -2,7 +2,6 @@ import logging
 from datetime import datetime
 from os import path, mkdir
 
-from ..common.io import rename_all_files
 from ..common.path import goto_music
 from ..common.args import is_verbose
 
@@ -58,7 +57,6 @@ class Logger:
         self.elapsed = round(elapsed, 2)
         self.download_elapsed = round(self.download_elapsed, 2)
         self.conversion_elapsed = round(elapsed - self.download_elapsed, 2)
-        rename_all_files(self, self.file_names)
         self._write_song_log()
         if is_verbose():
             # Verbose message

@@ -1,5 +1,5 @@
-from instrumental_dl import main
+from instrumental_dl.instrumental_dl import InstrumentalDownloader
 
 if __name__ == '__main__':
 
-    main()
+    InstrumentalDownloader().run()

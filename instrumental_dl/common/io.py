@@ -5,13 +5,14 @@ from .args import is_verbose
 from ..errors import UnknownExtensionError
 
 
-def rename_all_files(logger, file_names: list):
+def rename_all_files(logger):
     """
     Renames all downloaded instrumentals to remove any unneeded
     keywords in the file name.
 
     :param logger: The main logger for this program
-    :param file_names: A list of the names of all the downloaded files.
+
+    :list file_names: A list of the names of all the downloaded files.
                        file_names do not need to have .mp3 as their extension
                        when passed through.
     """
@@ -19,6 +20,7 @@ def rename_all_files(logger, file_names: list):
         print('Starting renaming process...')
 
     keywords = _get_keywords()
+    file_names = logger.file_names
 
     for i in range(len(file_names)):
         old_name = None

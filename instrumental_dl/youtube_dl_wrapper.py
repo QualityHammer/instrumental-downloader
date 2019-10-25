@@ -1,5 +1,6 @@
 import youtube_dl
 
+from .common.io import rename_all_files
 from .url_query import get_urls
 from .common.path import goto_music
 
@@ -33,6 +34,10 @@ class YoutubeDL:
 
         :param: song_names: A list of all the song names to be downloaded."""
         self.logger.add_song_titles(song_names)
+        # Moves current directory to music/Instrumentals/
         goto_music()
+        # Downloads all instrumentals
         with youtube_dl.YoutubeDL(self.options) as ydl:
             ydl.download(get_urls(song_names))
+
+        rename_all_files(self.logger)
