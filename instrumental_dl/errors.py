@@ -20,17 +20,3 @@ class UnknownExtensionError(BaseError):
         self.message = "The extension in " + file_name + \
                        " is unknown and needs to be added by the developer"
         BaseError.__init__(self, self.message, logger)
-
-
-class MissingArgumentsError(BaseError):
-    """Raised when the program is called with no arguments.
-
-    Attributes:
-        message -- Explanation to run this program with either
-                   song titles or a file name.
-    """
-
-    def __init__(self, logger):
-        self.message = "Enter either a .txt file name " \
-                       "or song names to download."
-        BaseError.__init__(self, self.message, logger)
