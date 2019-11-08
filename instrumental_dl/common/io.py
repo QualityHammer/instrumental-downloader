@@ -10,9 +10,9 @@ def rename_all_files(logger):
     Renames all downloaded instrumentals to remove any unneeded
     keywords in the file name.
 
-    :param logger: The main logger for this program
+    :param: logger -- The main logger for this program
 
-    :list file_names: A list of the names of all the downloaded files.
+    :var: file_names -- A list of the names of all the downloaded files.
                        file_names do not need to have .mp3 as their extension
                        when passed through.
     """
@@ -38,30 +38,65 @@ def rename_all_files(logger):
         # Removes any unneeded keywords in actual file name
         for keyword in keywords:
             if keyword in file_names[i].lower():
+                new_file_name = file_names[i].lower().replace(keyword, '').capitalize()
                 try:
-                    new_file_name = file_names[i].lower().replace(keyword, '').capitalize()
                     os.rename(file_names[i], new_file_name)
                     file_names[i] = new_file_name
                 except FileNotFoundError:
-                    _file_error(logger, file_names[i])
+                    _no_file_error(logger, file_names[i])
+                except FileExistsError:
+                    replacement = _file_recursion_creator(file_names[i],  new_file_name[:-4])
+                    _file_exists_error(logger, file_names[i], replacement, new_file_name)
+                    file_names[i] = replacement
 
         # Removes unneeded space at the end of file name
         while file_names[i][-5] == ' ' or file_names[i][-5] == '-':
+            new_file_name = file_names[i][:-5] + '.mp3'
             try:
-                new_file_name = file_names[i][:-5] + '.mp3'
                 os.rename(file_names[i], new_file_name)
                 file_names[i] = new_file_name
             except FileNotFoundError:
-                _file_error(logger, file_names[i])
+                _no_file_error(logger, file_names[i])
+            except FileExistsError:
+                replacement = _file_recursion_creator(file_names[i],  new_file_name[:-4])
+                _file_exists_error(logger, file_names[i], replacement, new_file_name)
+                file_names[i] = replacement
 
         if is_verbose():
             print(f'Converted and renamed {old_name} to {file_names[i]}.')
 
 
-def _file_error(logger, file_name):
+def _file_recursion_creator(old_file_name: str, new_file_name: str, n: int = 1):
+    """If a file cannot be renamed because of a FileExistsError, it calls this recursive
+    function which calls itself until it can rename the file to a name that doesn't exist.
+
+    :param: old_file_name --  The name of the file that is attempting to be renamed.
+    :param: new_file_name -- What the file will be renamed to in this function.
+    :param: n -- The number of existing files that exist.
+
+    :return: The attempted renamed file.
+    """
+    new_file_name += f"({n}).mp3"
+    try:
+        os.rename(old_file_name, new_file_name)
+    except FileExistsError:
+        new_file_name = _file_recursion_creator(old_file_name, new_file_name[:-7], n + 1)
+
+    return new_file_name
+
+
+def _no_file_error(logger, file_name):
     """Handles FileNotFoundErrors"""
-    msg = f"Error: {file_name} not found."
+    msg = f"{file_name} not found."
     logger.error(msg)
+    print(msg)
+
+
+def _file_exists_error(logger, old_file_name, new_file_name, existing_file_name):
+    """Handles FileExistsErrors"""
+    msg = f"\nINFO\n  - Tried to rename {old_file_name} to {existing_file_name}, but it " \
+        f"already exists. It was instead renames to {new_file_name}"
+    logger.warning(msg)
     print(msg)
 
 

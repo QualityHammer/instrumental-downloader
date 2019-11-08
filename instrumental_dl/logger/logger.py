@@ -111,6 +111,7 @@ class Logger:
     def _print_message(self):
         """Prints either a verbose message, or short message to the console on completion"""
         # Console message only displays if more than one instrumental was successfully downloaded
+        print('\n')
         if self.song_count != 0:
             if self.song_count == 1:
                 s = ''
