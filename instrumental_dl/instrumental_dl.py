@@ -1,5 +1,6 @@
 from time import time
 from urllib.request import urlopen
+from socket import gaierror
 
 from .errors import NoInternetConnectionError
 from .youtube_dl_wrapper import YoutubeDL
@@ -23,8 +24,9 @@ class InstrumentalDownloader:
         self.logger.print_log(time() - self.start_time)
 
     def _check_for_internet(self):
+        """Asserts that the user has a working internet connection"""
         try:
             _ = urlopen('https://www.google.com/', timeout=10)
             return True
-        except:
+        except gaierror:
             raise NoInternetConnectionError(self.logger)
