@@ -1,7 +1,7 @@
 import os
 import platform
 
-from .args import is_verbose
+from .args import ArgHandler
 from ..errors import UnknownExtensionError
 
 
@@ -16,7 +16,7 @@ def rename_all_files(logger):
                        file_names do not need to have .mp3 as their extension
                        when passed through.
     """
-    if is_verbose() and len(logger.song_titles) > 0:
+    if ArgHandler.is_verbose() and len(logger.song_titles) > 0:
         print('Starting renaming process...')
 
     keywords = _get_keywords()
@@ -24,7 +24,7 @@ def rename_all_files(logger):
 
     for i in range(len(file_names)):
         old_name = None
-        if is_verbose():
+        if ArgHandler.is_verbose():
             old_name = file_names[i]
 
         # Replaces extension in file_name(not actual file name) to .mp3
@@ -62,7 +62,7 @@ def rename_all_files(logger):
                 _file_exists_error(logger, file_names[i], replacement, new_file_name)
                 file_names[i] = replacement
 
-        if is_verbose():
+        if ArgHandler.is_verbose():
             print(f'Converted and renamed {old_name} to {file_names[i]}.')
 
 
@@ -95,7 +95,7 @@ def _no_file_error(logger, file_name):
 def _file_exists_error(logger, old_file_name, new_file_name, existing_file_name):
     """Handles FileExistsErrors"""
     msg = f"\nINFO\n  - Tried to rename {old_file_name} to {existing_file_name}, but it " \
-        f"already exists. It was instead renames to {new_file_name}"
+        f"already exists. It was instead renamed to {new_file_name}"
     logger.warning(msg)
     print(msg)
 
