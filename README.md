@@ -3,8 +3,11 @@ A command line tool to download a song's instrumental from Youtube.
 
 
 # Installation
+If you don't have pip, install it here: 
+[https://pip.pypa.io/en/stable/installing/](https://pip.pypa.io/en/stable/installing/)
 
-First, you need to install [ffprobe/ ffmpeg](https://ffmpeg.org/download.html).  
+First, you need to install ffprobe/ ffmpeg: 
+[https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
   1) Download the build for your OS  
   2) Extract the program folder from the download  
   3) Add the program folder to the system PATH:  
@@ -42,3 +45,22 @@ First, you need to install [ffprobe/ ffmpeg](https://ffmpeg.org/download.html).
     ---------------------
     -v                      Verbose: Print out each download and conversion.
                             Also gives detailed time elapsed description.
+
+## TODO
+
+**Version 1.0**
+
+    - Command Line Application
+        - Make sure that the url to download exists
+        - Better logging
+        - Check for wrong instrumental downloads
+    
+    - GUI Application
+        - Add gui interaction for Windows, MacOS, and Linux
+
+**Version 2.0**
+
+    - Spotify API integration
+    - Download playlist/ album as instrumentals
+    - New file renaming system
+    - Download album cover for song to use as file icon
