@@ -1,9 +1,12 @@
 import os
 
 
-def goto_origin(origin_path):
-    """Moves current directory back to where it was when the command
-    was called."""
+def goto_origin(origin_path: str):
+    """Moves current directory back to where it was when the command was called.
+
+    Parameter
+    ---------
+    origin_path: """
     os.chdir(origin_path)
 
 
@@ -23,7 +26,14 @@ def goto_program():
 def _get_download_path():
     """Uses ~/Music/Instrumentals as the primary download path.
     If the path doesn't exist, it uses (and creates if needed)
-    ~/music/Instrumentals as the download path."""
+    ~/music/Instrumentals as the download path.
+
+    Returns
+    -------
+    download_path: str
+        The path to the Instrumentals folder
+    """
+    # Uses ~/Music as default, but if no music folder exists, ~/music is created and used
     music_path = os.path.join(os.path.expanduser('~'), 'Music')
     if not os.path.exists(music_path):
         music_path = os.path.join(os.path.expanduser('~'), 'music')

@@ -1,20 +1,24 @@
 import os
 import platform
 
-from .args import ArgHandler
+from .arg_handler import ArgHandler
 from ..errors import UnknownExtensionError
+from ..logger.logger import Logger
 
 
-def rename_all_files(logger):
-    """
-    Renames all downloaded instrumentals to remove any unneeded
-    keywords in the file name.
+def rename_all_files(logger: Logger):
+    """Renames all downloaded instrumentals to remove any unneeded keywords in the file name.
 
-    :param: logger -- The main logger for this program
+    Parameter
+    ---------
+    logger: Logger
+        The main logger for this program
 
-    :var: file_names -- A list of the names of all the downloaded files.
-                       file_names do not need to have .mp3 as their extension
-                       when passed through.
+    Function Variables
+    ------------------
+    file_names: list of str
+        A list of the names of all the downloaded files. file_names do not need to have .mp3 as their extension
+        when passed through.
     """
     if ArgHandler.is_verbose() and len(logger.song_titles) > 0:
         print('Starting renaming process...')
@@ -46,7 +50,7 @@ def rename_all_files(logger):
                     _no_file_error(logger, file_names[i])
                 except FileExistsError:
                     replacement = _file_recursion_creator(file_names[i],  new_file_name[:-4])
-                    _file_exists_error(logger, file_names[i], replacement, new_file_name)
+                    _file_exists_error(logger, file_names[i], new_file_name, replacement)
                     file_names[i] = replacement
 
         # Removes unneeded space at the end of file name
@@ -59,7 +63,7 @@ def rename_all_files(logger):
                 _no_file_error(logger, file_names[i])
             except FileExistsError:
                 replacement = _file_recursion_creator(file_names[i],  new_file_name[:-4])
-                _file_exists_error(logger, file_names[i], replacement, new_file_name)
+                _file_exists_error(logger, file_names[i], new_file_name, replacement)
                 file_names[i] = replacement
 
         if ArgHandler.is_verbose():
@@ -70,11 +74,19 @@ def _file_recursion_creator(old_file_name: str, new_file_name: str, n: int = 1):
     """If a file cannot be renamed because of a FileExistsError, it calls this recursive
     function which calls itself until it can rename the file to a name that doesn't exist.
 
-    :param: old_file_name --  The name of the file that is attempting to be renamed.
-    :param: new_file_name -- What the file will be renamed to in this function.
-    :param: n -- The number of existing files that exist.
+    Parameters
+    ----------
+    old_file_name: str
+        The name of the file that is attempting to be renamed.
+    new_file_name: str
+        What the file will be renamed to in this function.
+    n: int
+        The current round of recursion.
 
-    :return: The attempted renamed file.
+    Returns
+    -------
+    new_file_name: str
+        The attempted renamed file.
     """
     new_file_name += f"({n}).mp3"
     try:
@@ -85,15 +97,35 @@ def _file_recursion_creator(old_file_name: str, new_file_name: str, n: int = 1):
     return new_file_name
 
 
-def _no_file_error(logger, file_name):
-    """Handles FileNotFoundErrors"""
+def _no_file_error(logger: Logger, file_name: str):
+    """Handles FileNotFoundErrors
+
+    Paramaters
+    ----------
+    logger: Logger
+        The main logger for this program
+    file_name: str
+        The file_name that couldn't be found.
+    """
     msg = f"{file_name} not found."
     logger.error(msg)
     print(msg)
 
 
-def _file_exists_error(logger, old_file_name, new_file_name, existing_file_name):
-    """Handles FileExistsErrors"""
+def _file_exists_error(logger: Logger, old_file_name: str, existing_file_name: str, new_file_name: str):
+    """Handles FileExistsErrors
+
+    Parameters
+    ----------
+    logger: Logger
+        The main logger for this program
+    old_file_name: str
+        The file that the renaming was attempted on.
+    existing_file_name: str
+        The file that it was going to be renamed to, but exists already
+    new_file_name: str
+        The filename that was actually created.
+    """
     msg = f"\nINFO\n  - Tried to rename {old_file_name} to {existing_file_name}, but it " \
         f"already exists. It was instead renamed to {new_file_name}"
     logger.warning(msg)
@@ -105,8 +137,10 @@ def _get_keywords():
     Opens keywords.txt and retrieves all the keywords to
     remove from file names.
 
-    :return: keywords: A list of all the keywords to remove
-                       file names.
+    Returns
+    -------
+    keywords: list of str
+        A list of all the keywords to remove file names.
     """
     if platform.system() == 'Windows':
         key_file = 'config\\keywords.txt'
