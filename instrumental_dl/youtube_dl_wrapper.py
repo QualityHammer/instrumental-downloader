@@ -1,14 +1,16 @@
 import youtube_dl
+from ssl import SSLContext
 
 from .common.io import rename_all_files
-from instrumental_dl.common.url_query import get_video_urls
+from .common.url_query import get_video_urls
 from .common.path import goto_music
+from .logger import Logger
 
 
 class YoutubeDL:
     """A class used as a wrapper for youtube-dl."""
 
-    def __init__(self, logger):
+    def __init__(self, logger: Logger, ssl_context: SSLContext):
         """
         Parameter
         ---------
@@ -21,6 +23,7 @@ class YoutubeDL:
             The options used to download and convert using youtube-dl.
         """
         self.logger = logger
+        self.ssl_context = ssl_context
         self.options = {
             'format': 'bestaudio/best',
             'postprocessors': [{
@@ -45,7 +48,7 @@ class YoutubeDL:
         # Moves current directory to music/Instrumentals/
         goto_music()
         # Get urls to download and lists to log
-        urls, failed_songs, song_names = get_video_urls(song_names)
+        urls, failed_songs, song_names = get_video_urls(song_names, self.ssl_context)
         if len(failed_songs) > 0:
             self.logger.add_failed_songs(failed_songs)
         self.logger.add_song_titles(song_names)

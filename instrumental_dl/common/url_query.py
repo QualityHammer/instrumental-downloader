@@ -1,10 +1,10 @@
+from ssl import SSLContext
 import urllib.request
 import urllib.parse
 import re
-import ssl
 
 
-def get_video_urls(song_names: list):
+def get_video_urls(song_names: list, ssl_context: SSLContext):
     """Using a code snippet by Grant Curell, this gets a list
     of the urls for each of the instrumentals to be downloaded.
 
@@ -14,6 +14,8 @@ def get_video_urls(song_names: list):
     ----------
     song_names: list of str
         A list of song names to be searched for.
+    ssl_context: SSLContext
+        The SSL Context used for urls.
 
     Returns
     -------
@@ -24,7 +26,6 @@ def get_video_urls(song_names: list):
     song_names: list of str
         A list of the names of all the instrumentals that successfully downloaded
     """
-    ssl_context = ssl.SSLContext()
     urls = []
     failed_songs = []
     for song_name in song_names:
@@ -40,6 +41,8 @@ def get_video_urls(song_names: list):
             urls.append(url)
         except IndexError:
             failed_songs.append(song_name)
-            song_names.remove(song_name)
+
+    for failed_song in failed_songs:
+        song_names.remove(failed_song)
 
     return urls, failed_songs, song_names

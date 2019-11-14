@@ -11,7 +11,7 @@ setup(
     version=__version__,
     packages=[
         'instrumental_dl', 'instrumental_dl.common',
-        'instrumental_dl.logger', 'instrumental_dl.config'
+        'instrumental_dl.config'
     ],
     data_files=[
         ('config', ['instrumental_dl/config/keywords.txt',

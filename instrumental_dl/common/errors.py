@@ -1,4 +1,4 @@
-from .logger.logger import Logger
+from instrumental_dl.logger import Logger
 
 
 class BaseError(Exception):

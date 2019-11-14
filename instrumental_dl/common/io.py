@@ -2,8 +2,8 @@ import os
 import platform
 
 from .arg_handler import ArgHandler
-from ..errors import UnknownExtensionError
-from ..logger.logger import Logger
+from instrumental_dl.common.errors import UnknownExtensionError
+from instrumental_dl.logger import Logger
 
 
 def rename_all_files(logger: Logger):

@@ -2,9 +2,9 @@ import logging
 from datetime import datetime
 from os import path, mkdir
 
-from ..common.path import goto_music
-from ..common.arg_handler import ArgHandler
-from ..common.const_messages import ConstMessages
+from instrumental_dl.common.path import goto_music
+from instrumental_dl.common.arg_handler import ArgHandler
+from instrumental_dl.common.const_messages import ConstMessages
 
 
 class Logger:
@@ -192,9 +192,9 @@ class Logger:
 
     def _print_message(self):
         """Prints either a verbose message, or short message to the console on completion"""
-        print('')
         # Console message only displays if more than one instrumental was successfully downloaded
         if self.song_count != 0:
+            print('')
             if ArgHandler.is_verbose():
                 # Verbose message
                 print(ConstMessages.verbose_finished_message(self.song_count, str(self.conversion_elapsed),
@@ -203,6 +203,7 @@ class Logger:
                 print(ConstMessages.finished_message(self.song_count, str(self.elapsed)))
         # Failed instrumental message
         if len(self.failed_songs) > 0:
+            print('')
             if ArgHandler.is_verbose():
                 # Verbose message
                 print(ConstMessages.no_instrumental_message_verbose)
