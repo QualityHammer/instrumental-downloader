@@ -1,6 +1,3 @@
-from instrumental_dl.logger import Logger
-
-
 class BaseError(Exception):
     """Base exception
 
@@ -29,7 +26,7 @@ class UnknownExtensionError(BaseError):
         The file name for the file with the unknown exception
     """
 
-    def __init__(self, logger: Logger, file_name: str):
+    def __init__(self, logger, file_name: str):
         """
         Attribute
         ---------
@@ -69,6 +66,13 @@ class NoInstrumentalFoundError(BaseError):
         The name of the song that had no results
     """
 
-    def __init__(self, logger: Logger, song_name: str):
+    def __init__(self, logger, song_name: str):
         self.message = f"There were no results for {song_name} Instrumental."
+        BaseError.__init__(self, self.message, logger)
+
+
+class PathNotExistsError(BaseError):
+
+    def __init__(self, logger, path: str):
+        self.message = f"The path: {path} does not exist."
         BaseError.__init__(self, self.message, logger)

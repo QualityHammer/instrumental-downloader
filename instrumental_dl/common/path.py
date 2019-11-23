@@ -1,5 +1,7 @@
 import os
 
+from .errors import PathNotExistsError
+
 
 def goto_origin(origin_path: str):
     """Moves current directory back to where it was when the command was called.
@@ -10,9 +12,12 @@ def goto_origin(origin_path: str):
     os.chdir(origin_path)
 
 
-def goto_music():
+def goto_music(logger, path=None):
     """Moves current directory to the user's music folder."""
-    os.chdir(_get_download_path())
+    try:
+        os.chdir(path if path else _get_download_path())
+    except FileNotFoundError:
+        raise PathNotExistsError(logger, path)
 
 
 def goto_program():

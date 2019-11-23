@@ -1,9 +1,9 @@
 import youtube_dl
 from ssl import SSLContext
 
+from .common.arg_handler import ArgHandler
 from .common.io import rename_all_files
 from .common.url_query import get_video_urls
-from .common.path import goto_music
 from .logger import Logger
 
 
@@ -45,8 +45,8 @@ class YoutubeDL:
         song_names: list of str
             A list of all the song names to be downloaded.
         """
-        # Moves current directory to music/Instrumentals/
-        goto_music()
+        # Moves current directory to music/Instrumentals/ or the selected output path
+        ArgHandler.goto_output(self.logger)
         # Get urls to download and lists to log
         urls, failed_songs, song_names = get_video_urls(song_names, self.ssl_context)
         if len(failed_songs) > 0:

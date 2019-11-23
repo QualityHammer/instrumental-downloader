@@ -2,9 +2,8 @@ import logging
 from datetime import datetime
 from os import path, mkdir
 
-from instrumental_dl.common.path import goto_music
-from instrumental_dl.common.arg_handler import ArgHandler
-from instrumental_dl.common.const_messages import ConstMessages
+from .common.arg_handler import ArgHandler
+from .common.const_messages import ConstMessages
 
 
 class Logger:
@@ -183,7 +182,8 @@ class Logger:
     def _log_mode_on(self):
         """Configs and turns on log mode when an error/ warning has occurred"""
         if not self.log_mode:
-            goto_music()
+            ArgHandler.goto_output()
+            # goto_music()
             self.log_mode = True
             timestamp = datetime.strftime(datetime.now(), '%Y%m%d%H%M%S_%f')
             filename = f'{self._create_log_dir()}/log{timestamp}.log'

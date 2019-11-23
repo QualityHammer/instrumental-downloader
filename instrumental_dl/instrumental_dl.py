@@ -3,10 +3,10 @@ from urllib.request import urlopen
 from socket import gaierror
 from ssl import SSLContext
 
-from instrumental_dl.common.errors import NoInternetConnectionError
-from .youtube_dl_wrapper import YoutubeDL
-from instrumental_dl.logger import Logger
 from .common.arg_handler import ArgHandler
+from .common.errors import NoInternetConnectionError
+from .youtube_dl_wrapper import YoutubeDL
+from .logger import Logger
 
 
 class InstrumentalDownloader:

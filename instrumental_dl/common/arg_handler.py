@@ -2,7 +2,7 @@ import argparse
 from platform import system
 from os import getcwd
 
-from .path import goto_program, goto_origin
+from .path import goto_program, goto_origin, goto_music
 from ..version import __version__
 
 
@@ -68,6 +68,14 @@ class ArgHandler:
         return song_names
 
     @staticmethod
+    def goto_output(logger):
+        output_path = ArgHandler._parse_args().o
+        if output_path:
+            goto_music(logger, output_path)
+        else:
+            goto_music(logger)
+
+    @staticmethod
     def is_verbose():
         """Returns true if the program is in verbose mode."""
         return ArgHandler._parse_args().v
@@ -75,7 +83,7 @@ class ArgHandler:
     @staticmethod
     def _add_arguments():
         """Adds all arguments to the argument parser"""
-        arg_ids = ['--f', '--s', '-v']
+        arg_ids = ['--f', '--s', '-v', '-o']
         arg_help = ArgHandler._get_arg_help(arg_ids)
         ArgHandler.parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
         ArgHandler.parser.add_argument(arg_ids[0], '-File', nargs='?', required=False,
@@ -83,6 +91,7 @@ class ArgHandler:
         ArgHandler.parser.add_argument(arg_ids[1], '-Songs', metavar='SONGS', nargs='+', required=False,
                                        help=arg_help[arg_ids[1]])
         ArgHandler.parser.add_argument(arg_ids[2], action='store_true', help=arg_help[arg_ids[2]])
+        ArgHandler.parser.add_argument(arg_ids[3], metavar='OUTPUT')
 
     @staticmethod
     def _check_for_input():
