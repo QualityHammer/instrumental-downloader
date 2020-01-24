@@ -1,59 +1,58 @@
-import youtube_dl
+from argparse import Namespace
 from ssl import SSLContext
+from os import chdir, mkdir
+from os.path import join, isdir, expanduser
+from youtube_dl import YoutubeDL
 
-from .common.arg_handler import ArgHandler
-from .common.io import rename_all_files
-from .common.url_query import get_video_urls
-from .logger import Logger
+from .conversion import get_video_urls
 
 
-class YoutubeDL:
-    """A class used as a wrapper for youtube-dl."""
+def download_songs(ssl_context: SSLContext, args: Namespace) -> (list, list, list):
+    file_names = []
 
-    def __init__(self, logger: Logger, ssl_context: SSLContext):
-        """
-        Parameter
-        ---------
-        logger: Logger
-            The main logger object.
+    def ydl_hook(download):
+        if download["status"] == "finished":
+            file_names.append(download["filename"])
 
-        Attribute
-        ----------
-        options: dict
-            The options used to download and convert using youtube-dl.
-        """
-        self.logger = logger
-        self.ssl_context = ssl_context
-        self.options = {
-            'format': 'bestaudio/best',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-            'logger': self.logger,
-            'progress_hooks': [self.logger.hook],
-            'nocheckcertificate': True,
-            'outtmpl': '%(title)s.%(ext)s',
-        }
+    options = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+        # 'logger': None,
+        'progress_hooks': [ydl_hook],
+        'nocheckcertificate': True,
+        'outtmpl': '%(title)s.%(ext)s',
+        "quiet": True
+    }
+    song_names, urls, failed_songs = get_video_urls(args, ssl_context)
+    chdir(args.o if hasattr(args, 'o') else _get_download_path())
+    with YoutubeDL(options) as ydl:
+        ydl.download(urls)
 
-    def download_songs(self, song_names: list):
-        """Downloads all of the instrumentals in song_names using youtube-dl.
+    return song_names, file_names, failed_songs
 
-        Parameter
-        ---------
-        song_names: list of str
-            A list of all the song names to be downloaded.
-        """
-        # Moves current directory to music/Instrumentals/ or the selected output path
-        ArgHandler.goto_output(self.logger)
-        # Get urls to download and lists to log
-        urls, failed_songs, song_names = get_video_urls(song_names, self.ssl_context)
-        if len(failed_songs) > 0:
-            self.logger.add_failed_songs(failed_songs)
-        self.logger.add_song_titles(song_names)
-        # Downloads all instrumentals
-        with youtube_dl.YoutubeDL(self.options) as ydl:
-            ydl.download(urls)
 
-        rename_all_files(self.logger)
+def _get_download_path() -> str:
+    """Uses ~/Music/Instrumentals as the primary download path.
+    If the path doesn't exist, it uses (and creates if needed)
+    ~/music/Instrumentals as the download path.
+    Returns
+    -------
+    download_path: str
+        The path to the Instrumentals folder
+    """
+    # Uses ~/Music as default, but if no music folder exists, ~/music is created and used
+    music_path = join(expanduser('~'), 'Music')
+    if not isdir(music_path):
+        music_path = join(expanduser('~'), 'music')
+        if not isdir(music_path):
+            mkdir(music_path)
+
+    download_path = join(music_path, 'Instrumentals')
+    if not isdir(download_path):
+        mkdir(download_path)
+
+    return download_path

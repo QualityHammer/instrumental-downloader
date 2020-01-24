@@ -1,0 +1,6 @@
+{
+  "-f": "The name of a txt file that has a list of song names to download.",
+  "-s": "A list of song names to download.",
+  "-o": "Change where the songs are downloaded to.",
+  "-v": "Print out detailed information about the download process."
+}
