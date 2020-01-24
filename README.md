@@ -45,6 +45,7 @@ First, you need to install ffprobe/ ffmpeg:
     ---------------------
     -v                      Verbose: Print out each download and conversion.
                             Also gives detailed time elapsed description.
+    -o
 
 ## TODO
 
