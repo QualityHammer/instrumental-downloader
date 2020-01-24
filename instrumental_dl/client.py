@@ -1,12 +1,19 @@
 from argparse import Namespace
+from logging import getLogger
+from logging.config import fileConfig
+from os.path import join
 from ssl import SSLContext
 
-from .args import get_arguments
-from .file_names import rename_all_files
-from .youtube_dl_wrapper import download_songs
+from instrumental_dl.args import get_arguments
+from instrumental_dl.file_names import rename_all_files
+from instrumental_dl.__version__ import __version__
+from instrumental_dl.youtube_dl_wrapper import download_songs
 
 
 def run(args: Namespace = None):
+    fileConfig(join("..", "config", "logging.conf"))
+    logger = getLogger("instrumental_dl")
+    logger.debug(f"Instrumental-Downloader running on v{__version__}")
     if not args:
         args = get_arguments()
     ssl_context = SSLContext()

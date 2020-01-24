@@ -4,7 +4,7 @@ from os import chdir, mkdir
 from os.path import join, isdir, expanduser
 from youtube_dl import YoutubeDL
 
-from .conversion import get_video_urls
+from instrumental_dl.conversion import get_video_urls
 
 
 def download_songs(ssl_context: SSLContext, args: Namespace) -> (list, list, list):

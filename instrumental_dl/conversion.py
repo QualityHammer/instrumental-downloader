@@ -4,7 +4,7 @@ from ssl import SSLContext
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
-from .file_input import read_songs_txt
+from instrumental_dl.file_input import read_songs_txt
 
 
 def get_video_urls(args: Namespace, ssl_context: SSLContext) -> (list, list, list):
