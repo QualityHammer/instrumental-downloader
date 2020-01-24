@@ -51,7 +51,6 @@ First, you need to install ffprobe/ ffmpeg:
 **Version 1.0**
 
     - Command Line Application
-        - Rewrite for simpler code base
         - Better logging
         - Check for wrong instrumental downloads
     
