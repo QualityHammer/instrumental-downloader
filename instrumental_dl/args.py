@@ -24,7 +24,7 @@ def get_arguments():
 
 
 def _get_argument_help():
-    filename = join(dirname(realpath(__file__)), "config", "arg_help.json")
+    filename = join(dirname(dirname(realpath(__file__))), "config", "arg_help.json")
     if isfile(filename):
         with open(filename, "r") as arg_help:
             return loads(arg_help.read())

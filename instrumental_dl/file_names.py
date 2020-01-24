@@ -53,7 +53,7 @@ def _file_recursion_creator(old_file_name: str, new_file_name: str,
 
 
 def _get_keywords() -> list:
-    key_path = join(dirname(realpath(__file__)), "config", "keywords")
+    key_path = join(dirname(dirname(realpath(__file__))), "config", "keywords")
     keywords = []
     with open(key_path, 'r') as file:
         for keyword in file:
