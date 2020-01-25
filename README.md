@@ -51,16 +51,14 @@ First, you need to install ffprobe/ ffmpeg:
 
 **Version 1.0**
 
-    - Command Line Application
-        - Better logging
-        - Check for wrong instrumental downloads
-    
-    - GUI Application
-        - Add gui interaction for Windows, MacOS, and Linux
+    - Spotify API integration
+    - Download playlist/ album as instrumentals
+    - Download album cover for song to use as file icon
 
 **Version 2.0**
 
-    - Spotify API integration
-    - Download playlist/ album as instrumentals
+    - Check for wrong instrumental downloads
     - New file renaming system
-    - Download album cover for song to use as file icon
+
+    - GUI Application
+        - Add gui interaction for Windows, MacOS, and Linux
