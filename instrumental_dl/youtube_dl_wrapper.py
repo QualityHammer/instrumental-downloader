@@ -1,4 +1,5 @@
 from argparse import Namespace
+from logging import getLogger
 from ssl import SSLContext
 from os import chdir, mkdir
 from os.path import join, isdir, expanduser
@@ -7,10 +8,25 @@ from youtube_dl import YoutubeDL
 from instrumental_dl.conversion import get_video_urls
 
 
+class _YdlLogger(object):
+
+    def __init__(self):
+        self.logger = getLogger("youtube_dl")
+
+    def debug(self, msg):
+        self.logger.debug(msg)
+
+    def warning(self, msg):
+        self.logger.warning(msg)
+
+    def error(self, msg):
+        self.logger.error(msg)
+
+
 def download_songs(ssl_context: SSLContext, args: Namespace) -> (list, list, list):
     file_names = []
 
-    def ydl_hook(download):
+    def file_name_hook(download):
         if download["status"] == "finished":
             file_names.append(download["filename"])
 
@@ -21,8 +37,8 @@ def download_songs(ssl_context: SSLContext, args: Namespace) -> (list, list, lis
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
-        # 'logger': None,
-        'progress_hooks': [ydl_hook],
+        'logger': _YdlLogger(),
+        'progress_hooks': [file_name_hook],
         'nocheckcertificate': True,
         'outtmpl': '%(title)s.%(ext)s',
         "quiet": True
