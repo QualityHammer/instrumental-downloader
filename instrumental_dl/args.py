@@ -5,14 +5,12 @@ from os.path import dirname, realpath, join, isfile
 from sys import exit
 
 from instrumental_dl import __version__
+from instrumental_dl.exceptions import HelpFileNotFoundException
 
 USAGE_MSG = "Usage: instrumental_dl -f FILE_NAME\n" \
             "   instrumental_dl -s 'SONG_NAMES' ['SONG_NAMES'...]\n" \
             "       (with -s the song name needs to be in quotations\n" \
             "        if it contains any spaces)"
-HELP_NOT_FOUND = "The help file could not be found.\n" \
-                 "      This should not occur, so contact the developer with this issue " \
-                 "if possible."
 
 
 def get_arguments():
@@ -38,10 +36,10 @@ def get_arguments():
 
 def _get_argument_help():
     logger = getLogger("arguments")
-    filename = join(dirname(dirname(realpath(__file__))), "config", "arg_help.json")
+    filename = join(dirname(dirname(realpath(__file__))), "config", "arg_hel.json")
     if isfile(filename):
         with open(filename, "r") as arg_help:
             return loads(arg_help.read())
     else:
-        logger.error(HELP_NOT_FOUND)
+        logger.error(str(HelpFileNotFoundException()))
         return None

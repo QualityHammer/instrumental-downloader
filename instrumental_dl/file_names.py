@@ -1,8 +1,12 @@
+from logging import getLogger
 from os import rename
 from os.path import join, dirname, realpath
 
+from instrumental_dl.exceptions import DownloadNotFoundException
+
 
 def rename_all_files(file_names: list, is_verbose: bool):
+    logger = getLogger("file_names")
     keywords = _get_keywords()
 
     for i in range(len(file_names)):
@@ -21,8 +25,7 @@ def rename_all_files(file_names: list, is_verbose: bool):
                 try:
                     rename(file_names[i], new_file_name)
                 except FileNotFoundError:
-                    # TODO: Add exception
-                    print("Error: file not found")
+                    logger.error(str(DownloadNotFoundException(file_names[i])))
                 except FileExistsError:
                     new_file_name = _file_recursion_creator(old_file_name,
                                                             new_file_name[:-4])
@@ -33,8 +36,7 @@ def rename_all_files(file_names: list, is_verbose: bool):
                 try:
                     rename(file_names[i], new_file_name)
                 except FileNotFoundError:
-                    # TODO: Add exception
-                    print("Error: file not found")
+                    logger.error(str(DownloadNotFoundException(file_names[i])))
                 except FileExistsError:
                     new_file_name = _file_recursion_creator(file_names[i], new_file_name[:-4])
                 file_names[i] = new_file_name
