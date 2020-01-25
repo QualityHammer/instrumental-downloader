@@ -5,14 +5,12 @@ from os.path import join, dirname, realpath
 from instrumental_dl.exceptions import DownloadNotFoundException
 
 
-def rename_all_files(file_names: list, is_verbose: bool):
+def rename_all_files(file_names: list):
     logger = getLogger("file_names")
     keywords = _get_keywords()
 
     for i in range(len(file_names)):
-        old_file_name = None
-        if is_verbose:
-            old_file_name = file_names[i]
+        old_file_name = file_names[i]
 
         if file_names[i][-5:] == '.webm':
             file_names[i] = file_names[i].replace('.webm', '.mp3')
@@ -40,6 +38,7 @@ def rename_all_files(file_names: list, is_verbose: bool):
                 except FileExistsError:
                     new_file_name = _file_recursion_creator(file_names[i], new_file_name[:-4])
                 file_names[i] = new_file_name
+        # logger.info(f"Renamed {old_file_name} to {file_names[i]}.")
 
 
 def _file_recursion_creator(old_file_name: str, new_file_name: str,

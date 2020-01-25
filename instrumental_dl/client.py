@@ -17,7 +17,7 @@ def run(args: Namespace = None):
         args = get_arguments()
     ssl_context = SSLContext()
     song_names, file_names, failed_songs = download_songs(ssl_context, args)
-    rename_all_files(file_names, args.v if hasattr(args, 'v') else False)
+    rename_all_files(file_names)
 
 
 def _startup_log():
