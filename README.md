@@ -49,14 +49,7 @@ First, you need to install ffprobe/ ffmpeg:
 
 ## TODO
 
-**Version 1.0**
-
-    - Spotify API integration
-    - Download playlist/ album as instrumentals
     - Download album cover for song to use as file icon
-
-**Version 2.0**
-
     - Check for wrong instrumental downloads
     - New file renaming system
 
