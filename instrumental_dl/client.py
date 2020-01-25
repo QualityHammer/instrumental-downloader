@@ -12,7 +12,7 @@ from instrumental_dl.youtube_dl_wrapper import download_songs
 
 def run(args: Namespace = None):
     fileConfig(join("..", "config", "logging.conf"))
-    logger = getLogger("instrumental_dl")
+    logger = getLogger("client")
     logger.debug(f"Instrumental-Downloader running on v{__version__}")
     if not args:
         args = get_arguments()
