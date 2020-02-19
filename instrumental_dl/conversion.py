@@ -34,7 +34,7 @@ def get_video_urls(args: Namespace, ssl_context: SSLContext) -> (list, list, lis
 
 
 def _songs_from_args(args: Namespace) -> list:
-    if hasattr(args, "f"):
-        return read_songs_txt(args.f)
+    if args.file != None:
+        return read_songs_txt(args.file)
     else:
-        return args.s.copy()
+        return args.songs.copy()

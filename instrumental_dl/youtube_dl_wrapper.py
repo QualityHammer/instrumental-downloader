@@ -29,6 +29,9 @@ def download_songs(ssl_context: SSLContext, args: Namespace) -> (list, list, lis
     def file_name_hook(download):
         if download["status"] == "finished":
             file_names.append(download["filename"])
+            if args.verbose:
+                s_name = song_names[len(file_names) - 1]
+                print(f"Downloaded {s_name}.")
 
     options = {
         'format': 'bestaudio/best',
@@ -44,7 +47,11 @@ def download_songs(ssl_context: SSLContext, args: Namespace) -> (list, list, lis
         "quiet": True
     }
     song_names, urls, failed_songs = get_video_urls(args, ssl_context)
-    chdir(args.o if hasattr(args, 'o') else _get_download_path())
+    if args.output != None:
+         download_path = args.output
+    else:
+        download_path = _get_download_path()
+    chdir(download_path)
     with YoutubeDL(options) as ydl:
         ydl.download(urls)
 

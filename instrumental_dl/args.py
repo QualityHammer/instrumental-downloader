@@ -4,10 +4,11 @@ from logging import getLogger
 from os.path import dirname, realpath, join, isfile
 from sys import exit
 
-from instrumental_dl import __version__
+from instrumental_dl.__version__ import __version__
 from instrumental_dl.exceptions import HelpFileNotFoundException
 
-USAGE_MSG = "Usage: instrumental_dl -f FILE_NAME\n" \
+USAGE_MSG = "Usage: \n" \
+            "   instrumental_dl -f FILE_NAME\n" \
             "   instrumental_dl -s 'SONG_NAMES' ['SONG_NAMES'...]\n" \
             "       (with -s the song name needs to be in quotations\n" \
             "        if it contains any spaces)"
@@ -27,7 +28,7 @@ def get_arguments():
     parser.add_argument("-v", long_args["-v"], action="store_true", help=arg_help["-v"])
 
     args = parser.parse_args()
-    if not hasattr(args, 'f') and not hasattr(args, 's'):
+    if args.file == None and args.songs == None:
         print('\n', USAGE_MSG)
         exit(1)
 
@@ -36,7 +37,7 @@ def get_arguments():
 
 def _get_argument_help():
     logger = getLogger("arguments")
-    filename = join(dirname(dirname(realpath(__file__))), "config", "arg_hel.json")
+    filename = join(dirname(dirname(realpath(__file__))), "config", "arg_help.json")
     if isfile(filename):
         with open(filename, "r") as arg_help:
             return loads(arg_help.read())

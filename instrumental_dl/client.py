@@ -17,11 +17,12 @@ def run(args: Namespace = None):
         args = get_arguments()
     ssl_context = SSLContext()
     song_names, file_names, failed_songs = download_songs(ssl_context, args)
-    rename_all_files(file_names)
+    rename_all_files(file_names, args.verbose)
 
 
 def _startup_log():
-    fileConfig(join("..", "config", "logging.conf"))
+    fileConfig(join("config", "logging.conf"))
     logger = getLogger("client")
     logger.debug(f"Instrumental-Downloader(v{__version__}) running on Python {version_info}")
     logger.debug(f"Platform: {platform}")
+
