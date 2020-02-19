@@ -1,4 +1,4 @@
 include README.md
 include LICENSE
-include instrumental_dl/config/keywords.txt
+include instrumental_dl/config/keywords
 include instrumental_dl/config/arg_help.txt

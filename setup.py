@@ -1,38 +1,33 @@
-from setuptools import setup
+import setuptools
+from instrumental_dl.__version__ import __version__
 
-from instrumental_dl.version import __version__
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
-
-with open("README.md", 'r') as f:
-    long_description = f.read()
-
-setup(
-    name="instrumental_dl",
+setuptools.setup(
+    name="instrumantal-dl", # Replace with your own username
     version=__version__,
-    packages=[
-        'instrumental_dl', 'instrumental_dl.common',
-        'instrumental_dl.config'
-    ],
-    data_files=[
-        ('config', ['instrumental_dl/config/keywords.txt',
-                    'instrumental_dl/config/arg_help.txt'])
-    ],
+
+    python_requires='>=3.6',
+    install_requires=['youtube_dl>=2020.2.16'],
+    data_files=[("config", ["config/arg_help.json", "config/keywords",
+        "config/logging.conf"])],
     include_package_data=True,
 
-    install_requires=['youtube_dl>=2019.9.28'],
-    python_requires='>=3.6',
-
+    description="A command line tool to easily download song instrumentals from Youtube.",
     author="QualityHammer",
     author_email="agingllama@gmail.com",
-    description="Download the instrumental for almost any song",
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    keywords='instrumental downloader',
-    url='https://github.com/QualityHammer/instrumental-downloader',
+    long_description_content_type="text/markdown",
+    url="https://github.com/QualityHammer/instrumental-downloader",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
 
     entry_points={
-        'console_scripts': [
-            'instrumental_dl=instrumental_dl:main'
-        ]
+        "console_scripts": ["instrumental-dl=instrumental_dl.client:run"]
     }
 )
