@@ -1,7 +1,7 @@
 from argparse import Namespace
 from logging import getLogger
 from logging.config import fileConfig
-from os.path import join
+from os.path import join, abspath, dirname, split
 from ssl import SSLContext
 from sys import version_info, platform
 
@@ -21,7 +21,8 @@ def run(args: Namespace = None):
 
 
 def _startup_log():
-    fileConfig(join("config", "logging.conf"))
+    fileConfig(join(join(split(dirname(abspath(__file__)))[0]),
+        "config", "logging.conf"))
     logger = getLogger("client")
     logger.debug(f"Instrumental-Downloader(v{__version__}) running on Python {version_info}")
     logger.debug(f"Platform: {platform}")
