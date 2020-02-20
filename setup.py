@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="instrumantal-dl", # Replace with your own username
+    name="instrumental-dl",
     version=__version__,
 
     python_requires='>=3.6',
