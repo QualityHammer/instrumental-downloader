@@ -1,1 +1,4 @@
-__version__ = "0.6.3"
+MAJOR = 0
+MINOR = 6
+MICRO = 3
+__version__ = f"{MAJOR}.{MINOR}.{MICRO}"
