@@ -34,6 +34,8 @@ def get_video_urls(args: Namespace, ssl_context: SSLContext) -> (list, list, lis
 
 
 def _songs_from_args(args: Namespace) -> list:
+    """Returns the list of songs to download, either from a file,
+    or from the arguments given by the user."""
     if args.file != None:
         return read_songs_txt(args.file)
     else:

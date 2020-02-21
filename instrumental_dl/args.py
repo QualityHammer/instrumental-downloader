@@ -1,7 +1,7 @@
 import argparse
 from json import loads
 from logging import getLogger
-from os.path import dirname, realpath, join, isfile
+from os.path import dirname, realpath, join, isfile, split
 from sys import exit
 
 from instrumental_dl.__version__ import __version__
@@ -15,6 +15,13 @@ USAGE_MSG = "Usage: \n" \
 
 
 def get_arguments():
+    """Uses argparse to read all the arguments passed
+    from the command line
+
+    Returns:
+      a class containing attributes for all of the arguments
+        passed by the user
+    """
     long_args = {'-f': "--file", '-s': "--songs", '-v': "--verbose", '-o': "--output"}
     arg_help = _get_argument_help()
     if not arg_help:
@@ -37,7 +44,7 @@ def get_arguments():
 
 def _get_argument_help():
     logger = getLogger("arguments")
-    filename = join(dirname(dirname(realpath(__file__))), "config", "arg_help.json")
+    filename = join(split(dirname(realpath(__file__)))[0], "config", "arg_help.json")
     if isfile(filename):
         with open(filename, "r") as arg_help:
             return loads(arg_help.read())

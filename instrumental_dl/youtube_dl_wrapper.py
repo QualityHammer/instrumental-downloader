@@ -9,24 +9,49 @@ from instrumental_dl.conversion import get_video_urls
 
 
 class _YdlLogger(object):
+    """A class to log messages from youtube-dl."""
 
     def __init__(self):
         self.logger = getLogger("youtube_dl")
 
     def debug(self, msg):
+        """Logs a debug message."""
         self.logger.debug(msg)
 
     def warning(self, msg):
+        """Logs a warning message."""
         self.logger.warning(msg)
 
     def error(self, msg):
+        """Logs an error message."""
         self.logger.error(msg)
 
 
 def download_songs(ssl_context: SSLContext, args: Namespace) -> (list, list, list):
+    """Downloads all of the songs in args and converts them to .mp3 files.
+
+    The current directory is moved to the download path. That path
+    could be either ~/Music/Instrumentals or a different output directory
+    that can be passed using -o in the command line, or having
+    the path under args.output if running from python.
+
+    Parameters:
+      ssl_context -- contains an ssl certificate used in youtube-dl
+      args -- an object that contains all information passed to the program by the user
+
+    Returns:
+      A tuple with the following 3 values:
+        a list of the names of all the songs that were downloaded
+        a list of the file names of all the downloaded songs
+        a list of the names of all the songs that failed to download
+    """
     file_names = []
 
     def file_name_hook(download):
+        """Adds a song to the log when it's finished downloading.
+
+        Also prints to the console if verbose.
+        """
         if download["status"] == "finished":
             file_names.append(download["filename"])
             if args.verbose:
@@ -58,16 +83,17 @@ def download_songs(ssl_context: SSLContext, args: Namespace) -> (list, list, lis
     return song_names, file_names, failed_songs
 
 
+
 def _get_download_path() -> str:
-    """Uses ~/Music/Instrumentals as the primary download path.
+    """Returns the path to the user's default Instrumentals directory.
+
+    Uses ~/Music/Instrumentals as the primary download path.
     If the path doesn't exist, it uses (and creates if needed)
     ~/music/Instrumentals as the download path.
-    Returns
-    -------
-    download_path: str
-        The path to the Instrumentals folder
+
+    Returns:
+      the path to the Instrumentals folder
     """
-    # Uses ~/Music as default, but if no music folder exists, ~/music is created and used
     music_path = join(expanduser('~'), 'Music')
     if not isdir(music_path):
         music_path = join(expanduser('~'), 'music')
@@ -79,3 +105,4 @@ def _get_download_path() -> str:
         mkdir(download_path)
 
     return download_path
+

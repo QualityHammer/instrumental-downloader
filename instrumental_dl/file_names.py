@@ -1,11 +1,19 @@
 from logging import getLogger
 from os import rename
-from os.path import join, dirname, realpath
+from os.path import join, dirname, realpath, split
 
 from instrumental_dl.exceptions import DownloadNotFoundException
 
 
 def rename_all_files(file_names: list, verbose: bool):
+    """Renames all of the song files to make them more readable.
+
+    Logs each renamed file in the download log.
+
+    Parameters:
+      file_names -- a list of the file names for all the downloaded songs
+      verbose -- the verbose flag
+    """
     logger = getLogger("file_names")
     keywords = _get_keywords()
 
@@ -46,6 +54,21 @@ def rename_all_files(file_names: list, verbose: bool):
 
 def _file_recursion_creator(old_file_name: str, new_file_name: str,
                             recursion_count: int = 1) -> str:
+    """Attempts to rename a file when there is already a file
+    that exists with that name.
+
+    This function recursively calls itself until the file is
+    successfully renamed.
+
+    Parameters:
+      old_file_name -- the file that is being renamed
+      new_file_name -- the name that the file will be renamed to
+      recursion_count -- the amount of times this function has
+        been called recursively
+
+    Returns:
+      the name that the file has been successfully renamed to
+    """
     new_file_name += f"({recursion_count}.mp3"
     try:
         rename(old_file_name, new_file_name)
@@ -57,7 +80,13 @@ def _file_recursion_creator(old_file_name: str, new_file_name: str,
 
 
 def _get_keywords() -> list:
-    key_path = join(dirname(dirname(realpath(__file__))), "config", "keywords")
+    """Returns a list of keywords to remove from a file name
+    when renaming it.
+
+    These keywords are grabbed from the keywords file in the
+    config folder of the program.
+    """
+    key_path = join(split(dirname(realpath(__file__)))[0], "config", "keywords")
     keywords = []
     with open(key_path, 'r') as file:
         for keyword in file:

@@ -12,6 +12,16 @@ from instrumental_dl.youtube_dl_wrapper import download_songs
 
 
 def run(args: Namespace = None):
+    """Runs the instrumental-downloader program.
+
+    If running from the command line, arguments can
+    be passed to tell the program what to do.
+
+    If running directly from python, args can
+    be passed through this function as a parameter.
+    It should have all of the attributes needed to
+    run this program.
+    """
     _startup_log()
     if not args:
         args = get_arguments()
@@ -21,7 +31,8 @@ def run(args: Namespace = None):
 
 
 def _startup_log():
-    fileConfig(join(join(split(dirname(abspath(__file__)))[0]),
+    """Initializes the log for this program."""
+    fileConfig(join(split(dirname(abspath(__file__)))[0],
         "config", "logging.conf"))
     logger = getLogger("client")
     logger.debug(f"Instrumental-Downloader(v{__version__}) running on Python {version_info}")
