@@ -31,7 +31,7 @@ def get_arguments():
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("-f", long_args["-f"], metavar="FILE", nargs='?', required=False, help=arg_help["-f"])
     parser.add_argument("-s", long_args["-s"], metavar="SONGS", nargs='+', required=False, help=arg_help["-s"])
-    parser.add_argument("-o", long_args["-o"], metavar="OUTPUT", help=arg_help["-o"])
+    parser.add_argument("-o", long_args["-o"], metavar="PATH", help=arg_help["-o"])
     parser.add_argument("-v", long_args["-v"], action="store_true", help=arg_help["-v"])
 
     args = parser.parse_args()
